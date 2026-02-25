@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生活習慣病疫学調査 質問票</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f1eb;
+    --surface: #ffffff;
+    --primary: #1a3a2a;
+    --accent: #4a7c59;
+    --accent-light: #e8f0eb;
+    --text: #1c2b22;
+    --muted: #6b7f72;
+    --border: #d0dbd3;
+    --error: #c0392b;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 16px 80px;
+  }
+
+  .wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeDown 0.7s ease both;
+  }
+
+  header .tag {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(22px, 5vw, 34px);
+    color: var(--primary);
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .progress-bar {
+    background: var(--border);
+    height: 4px;
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.5s ease both;
+    box-shadow: 0 2px 12px rgba(26,58,42,0.05);
+  }
+
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+  .section:nth-child(4) { animation-delay: 0.4s; }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--accent-light);
+  }
+
+  .section-title .icon {
+    width: 30px;
+    height: 30px;
+    background: var(--accent-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .field {
+    margin-bottom: 22px;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  label .required {
+    color: var(--error);
+    margin-left: 4px;
+    font-size: 11px;
+  }
+
+  input[type="number"],
+  input[type="text"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(74,124,89,0.12);
+    background: #fff;
+  }
+
+  .input-unit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .input-unit input { flex: 1; }
+  .input-unit span {
+    font-size: 13px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .radio-group, .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .radio-group label, .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 400;
+    transition: all 0.2s;
+    margin: 0;
+    background: #fafafa;
+  }
+
+  .radio-group label:hover, .checkbox-group label:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .radio-group input[type="radio"],
+  .checkbox-group input[type="checkbox"] {
+    width: auto;
+    accent-color: var(--accent);
+  }
+
+  .row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 480px) { .row-2 { grid-template-columns: 1fr; } }
+
+  .hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+
+  .submit-area {
+    text-align: center;
+    margin-top: 36px;
+    animation: fadeUp 0.5s 0.5s ease both;
+  }
+
+  .consent-box {
+    background: var(--accent-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+
+  button[type="submit"] {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 14px 56px;
+    font-size: 15px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(26,58,42,0.18);
+  }
+
+  button[type="submit"]:hover {
+    background: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(74,124,89,0.3);
+  }
+
+  button[type="submit"]:active { transform: translateY(0); }
+
+  .success {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .success .checkmark {
+    width: 64px;
+    height: 64px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 20px;
+  }
+
+  .success h2 {
+    font-size: 22px;
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+
+  .success p { color: var(--muted); font-size: 14px; }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <header>
+    <div class="tag">EPIDEMIOLOGICAL SURVEY</div>
+    <h1>生活習慣病に関する<br>疫学調査 質問票</h1>
+    <p>本調査は、製造業従事者の生活習慣と健康状態の関連を明らかにすることを目的としています。回答内容は研究目的のみに使用し、個人が特定される形での公表は行いません。</p>
+  </header>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+  <form id="survey" novalidate>
+
+    <!-- セクション1: 基本属性 -->
+    <div class="section">
+      <div class="section-title"><div class="icon">👤</div>基本属性</div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>年齢<span class="required">*必須</span></label>
+          <div class="input-unit">
+            <input type="number" name="age" min="15" max="80" placeholder="例: 42" required>
+            <span>歳</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>性別<span class="required">*必須</span></label>
+          <div class="radio-group">
+            <label><input type="radio" name="sex" value="male" required> 男性</label>
+            <label><input type="radio" name="sex" value="female"> 女性</label>
+            <label><input type="radio" name="sex" value="other"> その他</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>身長</label>
+          <div class="input-unit">
+            <input type="number" name="height" min="130" max="220" placeholder="例: 170">
+            <span>cm</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>体重</label>
+          <div class="input-unit">
+            <input type="number" name="weight" min="30" max="200" placeholder="例: 65">
+            <span>kg</span>
+          </div>
+        </div>
+      </div>
+      <p class="hint" id="bmi-display"></p>
+
+      <div class="field">
+        <label>勤務形態<span class="required">*必須</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="shift" value="day" required> 日勤のみ</label>
+          <label><input type="radio" name="shift" value="shift"> 交替勤務（夜勤あり）</label>
+          <label><input type="radio" name="shift" value="night"> 夜勤専従</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>現職での勤続年数</label>
+        <div class="input-unit">
+          <input type="number" name="years" min="0" max="50" placeholder="例: 8">
+          <span>年</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- セクション2: 食事・飲酒・喫煙 -->
+    <div class="section">
+      <div class="section-title"><div class="icon">🍱</div>食事・飲酒・喫煙習慣</div>
+
+      <div class="field">
+        <label>1日の食事回数<span class="required">*必須</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="meals" value="1" required> 1回</label>
+          <label><input type="radio" name="meals" value="2"> 2回</label>
+          <label><input type="radio" name="meals" value="3"> 3回</label>
+          <label><input type="radio" name="meals" value="4+"> 4回以上</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>朝食の摂取頻度</label>
+        <select name="breakfast">
+          <option value="">選択してください</option>
+          <option value="everyday">毎日食べる</option>
+          <option value="mostly">ほぼ毎日（週5〜6日）</option>
+          <option value="sometimes">ときどき（週3〜4日）</option>
+          <option value="rarely">あまり食べない（週1〜2日）</option>
+          <option value="never">ほとんど食べない</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>外食・コンビニ食の頻度</label>
+        <select name="eating_out">
+          <option value="">選択してください</option>
+          <option value="everyday">毎日</option>
+          <option value="often">週4〜6回</option>
+          <option value="sometimes">週2〜3回</option>
+          <option value="rarely">週1回以下</option>
+          <option value="never">ほとんどなし</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>飲酒習慣<span class="required">*必須</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="alcohol" value="none" required> 飲まない</label>
+          <label><input type="radio" name="alcohol" value="past"> 以前は飲んでいた</label>
+          <label><input type="radio" name="alcohol" value="sometimes"> 時々飲む</label>
+          <label><input type="radio" name="alcohol" value="daily"> ほぼ毎日飲む</label>
+        </div>
+      </div>
+
+      <div class="field" id="alcohol-amount-field" style="display:none;">
+        <label>1日あたりの平均飲酒量（純アルコール換算）</label>
+        <select name="alcohol_amount">
+          <option value="">選択してください</option>
+          <option value="less20">20g未満（ビール500ml以下）</option>
+          <option value="20-40">20〜40g（ビール500ml〜1L程度）</option>
+          <option value="40-60">40〜60g</option>
+          <option value="over60">60g以上</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>喫煙習慣<span class="required">*必須</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="smoking" value="never" required> 吸わない</label>
+          <label><input type="radio" name="smoking" value="past"> 過去に吸っていた</label>
+          <label><input type="radio" name="smoking" value="current"> 現在吸っている</label>
+        </div>
+      </div>
+
+      <div class="field" id="smoking-amount-field" style="display:none;">
+        <label>1日あたりの喫煙本数</label>
+        <div class="input-unit">
+          <input type="number" name="cigarettes" min="1" max="100" placeholder="例: 10">
+          <span>本/日</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- セクション3: 運動・睡眠 -->
+    <div class="section">
+      <div class="section-title"><div class="icon">🏃</div>運動・睡眠習慣</div>
+
+      <div class="field">
+        <label>定期的な運動習慣<span class="required">*必須</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="exercise" value="none" required> ほとんどしない</label>
+          <label><input type="radio" name="exercise" value="sometimes"> 月1〜3回</label>
+          <label><input type="radio" name="exercise" value="weekly"> 週1〜2回</label>
+          <label><input type="radio" name="exercise" value="often"> 週3回以上</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>主な運動の種類（複数選択可）</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="exercise_type" value="walking"> ウォーキング</label>
+          <label><input type="checkbox" name="exercise_type" value="running"> ジョギング・ランニング</label>
+          <label><input type="checkbox" name="exercise_type" value="gym"> ジム・筋トレ</label>
+          <label><input type="checkbox" name="exercise_type" value="sports"> スポーツ</label>
+          <label><input type="checkbox" name="exercise_type" value="other"> その他</label>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>平均睡眠時間<span class="required">*必須</span></label>
+          <select name="sleep_hours" required>
+            <option value="">選択してください</option>
+            <option value="less5">5時間未満</option>
+            <option value="5-6">5〜6時間</option>
+            <option value="6-7">6〜7時間</option>
+            <option value="7-8">7〜8時間</option>
+            <option value="over8">8時間以上</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>睡眠の質の自己評価</label>
+          <select name="sleep_quality">
+            <option value="">選択してください</option>
+            <option value="very_good">とても良い</option>
+            <option value="good">良い</option>
+            <option value="fair">普通</option>
+            <option value="poor">悪い</option>
+            <option value="very_poor">とても悪い</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>仕事中の身体活動レベル</label>
+        <div class="radio-group">
+          <label><input type="radio" name="work_activity" value="sedentary"> ほぼ座り仕事</label>
+          <label><input type="radio" name="work_activity" value="light"> 立ち仕事・軽作業</label>
+          <label><input type="radio" name="work_activity" value="moderate"> 中程度の肉体労働</label>
+          <label><input type="radio" name="work_activity" value="heavy"> 重作業・重労働</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>主観的なストレスレベル（直近1ヶ月）</label>
+        <div class="radio-group">
+          <label><input type="radio" name="stress" value="1"> 1（低い）</label>
+          <label><input type="radio" name="stress" value="2"> 2</label>
+          <label><input type="radio" name="stress" value="3"> 3</label>
+          <label><input type="radio" name="stress" value="4"> 4</label>
+          <label><input type="radio" name="stress" value="5"> 5（高い）</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- セクション4: 既往歴・服薬 -->
+    <div class="section">
+      <div class="section-title"><div class="icon">🏥</div>既往歴・服薬状況</div>
+
+      <div class="field">
+        <label>現在治療中または診断されている疾患（複数選択可）<span class="required">*必須</span></label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="disease" value="none"> なし</label>
+          <label><input type="checkbox" name="disease" value="hypertension"> 高血圧</label>
+          <label><input type="checkbox" name="disease" value="diabetes"> 糖尿病・血糖異常</label>
+          <label><input type="checkbox" name="disease" value="dyslipidemia"> 脂質異常症</label>
+          <label><input type="checkbox" name="disease" value="obesity"> 肥満</label>
+          <label><input type="checkbox" name="disease" value="heart"> 心疾患</label>
+          <label><input type="checkbox" name="disease" value="stroke"> 脳卒中</label>
+          <label><input type="checkbox" name="disease" value="kidney"> 腎疾患</label>
+          <label><input type="checkbox" name="disease" value="other"> その他</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>家族歴（親・兄弟姉妹）（複数選択可）</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="family_history" value="none"> なし/不明</label>
+          <label><input type="checkbox" name="family_history" value="hypertension"> 高血圧</label>
+          <label><input type="checkbox" name="family_history" value="diabetes"> 糖尿病</label>
+          <label><input type="checkbox" name="family_history" value="dyslipidemia"> 脂質異常症</label>
+          <label><input type="checkbox" name="family_history" value="heart"> 心疾患</label>
+          <label><input type="checkbox" name="family_history" value="stroke"> 脳卒中</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>現在服用中の薬（複数選択可）</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="medication" value="none"> なし</label>
+          <label><input type="checkbox" name="medication" value="antihypertensive"> 降圧薬</label>
+          <label><input type="checkbox" name="medication" value="antidiabetic"> 血糖降下薬・インスリン</label>
+          <label><input type="checkbox" name="medication" value="statin"> 脂質異常症治療薬</label>
+          <label><input type="checkbox" name="medication" value="anticoagulant"> 抗凝固薬・抗血小板薬</label>
+          <label><input type="checkbox" name="medication" value="other"> その他</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>直近1年以内の健康診断の受診</label>
+        <div class="radio-group">
+          <label><input type="radio" name="checkup" value="yes"> 受診した</label>
+          <label><input type="radio" name="checkup" value="no"> 受診していない</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>自由記述（気になる症状・その他）</label>
+        <textarea name="comment" rows="3" placeholder="例：最近疲れやすい、血圧が高いと言われた、など"></textarea>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <div class="consent-box">
+        ✅ 本質問票への回答は自由意志によるものであり、回答の拒否や中断によって不利益を受けることはありません。収集したデータは統計処理を行い、個人が特定されない形で研究に使用します。
+      </div>
+      <button type="submit">回答を送信する</button>
+    </div>
+  </form>
+
+  <div class="success" id="success">
+    <div class="checkmark">✓</div>
+    <h2>回答ありがとうございました</h2>
+    <p>ご協力いただき、誠にありがとうございます。<br>回答内容は適切に管理し、研究目的のみに使用いたします。</p>
+    <button onclick="showAdmin()" style="margin-top:24px;background:var(--accent);color:#fff;border:none;padding:10px 28px;border-radius:50px;font-size:13px;cursor:pointer;font-family:inherit;">管理画面を開く</button>
+  </div>
+
+  <!-- 管理画面 -->
+  <div id="admin" style="display:none;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h2 style="font-size:18px;color:var(--primary);font-family:'DM Serif Display',serif;">回答データ管理</h2>
+        <p id="record-count" style="font-size:13px;color:var(--muted);margin-top:4px;">0件の回答</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button onclick="downloadCSV()" style="background:var(--primary);color:#fff;border:none;padding:10px 22px;border-radius:50px;font-size:13px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;">⬇ CSVダウンロード</button>
+        <button onclick="clearData()" style="background:#fff;color:var(--error);border:1.5px solid var(--error);padding:10px 22px;border-radius:50px;font-size:13px;cursor:pointer;font-family:inherit;">🗑 データ削除</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto;border-radius:10px;border:1px solid var(--border);">
+      <table id="data-table" style="width:100%;border-collapse:collapse;font-size:12px;background:#fff;">
+        <thead id="table-head" style="background:var(--primary);color:#fff;"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:10px;">※ データはブラウザのローカルストレージに保存されています。ブラウザのデータを削除すると消えます。</p>
+  </div>
+</div>
+
+<script>
+  // ---- データ列定義 ----
+  const COLUMNS = [
+    { key: 'timestamp',       label: '回答日時' },
+    { key: 'age',             label: '年齢' },
+    { key: 'sex',             label: '性別' },
+    { key: 'height',          label: '身長(cm)' },
+    { key: 'weight',          label: '体重(kg)' },
+    { key: 'bmi',             label: 'BMI' },
+    { key: 'shift',           label: '勤務形態' },
+    { key: 'years',           label: '勤続年数' },
+    { key: 'meals',           label: '食事回数/日' },
+    { key: 'breakfast',       label: '朝食頻度' },
+    { key: 'eating_out',      label: '外食頻度' },
+    { key: 'alcohol',         label: '飲酒習慣' },
+    { key: 'alcohol_amount',  label: '飲酒量' },
+    { key: 'smoking',         label: '喫煙習慣' },
+    { key: 'cigarettes',      label: '喫煙本数/日' },
+    { key: 'exercise',        label: '運動習慣' },
+    { key: 'exercise_type',   label: '運動種類' },
+    { key: 'sleep_hours',     label: '睡眠時間' },
+    { key: 'sleep_quality',   label: '睡眠の質' },
+    { key: 'work_activity',   label: '仕事の活動量' },
+    { key: 'stress',          label: 'ストレスレベル' },
+    { key: 'disease',         label: '既往歴' },
+    { key: 'family_history',  label: '家族歴' },
+    { key: 'medication',      label: '服薬' },
+    { key: 'checkup',         label: '健康診断受診' },
+    { key: 'comment',         label: '自由記述' },
+  ];
+
+  const STORAGE_KEY = 'survey_data_v1';
+
+  function loadRecords() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function saveRecords(records) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  }
+
+  // フォームから回答を収集
+  function collectFormData() {
+    const form = document.getElementById('survey');
+    const data = { timestamp: new Date().toLocaleString('ja-JP') };
+
+    COLUMNS.slice(1).forEach(col => {
+      const els = form.querySelectorAll(`[name="${col.key}"]`);
+      if (!els.length) { data[col.key] = ''; return; }
+
+      if (els[0].type === 'checkbox') {
+        const checked = [...els].filter(e => e.checked).map(e => e.value);
+        data[col.key] = checked.join('|');
+      } else if (els[0].type === 'radio') {
+        const checked = [...els].find(e => e.checked);
+        data[col.key] = checked ? checked.value : '';
+      } else {
+        data[col.key] = els[0].value;
+      }
+    });
+
+    // BMI計算
+    const h = parseFloat(data.height), w = parseFloat(data.weight);
+    data.bmi = (h > 0 && w > 0) ? (w / ((h/100)**2)).toFixed(1) : '';
+
+    return data;
+  }
+
+  // 管理画面テーブル描画
+  function renderTable() {
+    const records = loadRecords();
+    document.getElementById('record-count').textContent = `${records.length}件の回答`;
+
+    const thead = document.getElementById('table-head');
+    thead.innerHTML = '<tr>' + COLUMNS.map(c =>
+      `<th style="padding:8px 12px;text-align:left;white-space:nowrap;font-weight:500;">${c.label}</th>`
+    ).join('') + '</tr>';
+
+    const tbody = document.getElementById('table-body');
+    if (records.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="${COLUMNS.length}" style="padding:24px;text-align:center;color:var(--muted);">まだ回答データがありません</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = records.map((rec, i) =>
+      '<tr style="border-top:1px solid var(--border);' + (i%2===0?'background:#fafafa;':'') + '">' +
+      COLUMNS.map(c => `<td style="padding:7px 12px;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis;">${rec[c.key] ?? ''}</td>`).join('') +
+      '</tr>'
+    ).join('');
+  }
+
+  function showAdmin() {
+    document.getElementById('success').style.display = 'none';
+    document.getElementById('admin').style.display = 'block';
+    renderTable();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // CSV ダウンロード
+  function downloadCSV() {
+    const records = loadRecords();
+    if (records.length === 0) { alert('まだ回答データがありません。'); return; }
+
+    const header = COLUMNS.map(c => `"${c.label}"`).join(',');
+    const rows = records.map(rec =>
+      COLUMNS.map(c => `"${(rec[c.key] ?? '').toString().replace(/"/g, '""')}"`).join(',')
+    );
+    const csv = '\uFEFF' + [header, ...rows].join('\n'); // BOM付きUTF-8（Excel対応）
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `疫学調査_${new Date().toLocaleDateString('ja-JP').replace(/\//g,'-')}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function clearData() {
+    if (!confirm('すべての回答データを削除しますか？この操作は元に戻せません。')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    renderTable();
+  }
+
+  // ---- 既存機能 ----
+
+  function calcBMI() {
+    const h = parseFloat(document.querySelector('[name=height]').value);
+    const w = parseFloat(document.querySelector('[name=weight]').value);
+    const display = document.getElementById('bmi-display');
+    if (h > 0 && w > 0) {
+      const bmi = (w / ((h/100) ** 2)).toFixed(1);
+      let cat = bmi < 18.5 ? '低体重' : bmi < 25 ? '普通体重' : bmi < 30 ? '過体重' : '肥満';
+      display.textContent = `BMI: ${bmi}（${cat}）`;
+    }
+  }
+  document.querySelector('[name=height]').addEventListener('input', calcBMI);
+  document.querySelector('[name=weight]').addEventListener('input', calcBMI);
+
+  document.querySelectorAll('[name=alcohol]').forEach(r => {
+    r.addEventListener('change', () => {
+      const show = ['sometimes','daily'].includes(r.value);
+      document.getElementById('alcohol-amount-field').style.display = show ? '' : 'none';
+    });
+  });
+
+  document.querySelectorAll('[name=smoking]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('smoking-amount-field').style.display = r.value === 'current' ? '' : 'none';
+    });
+  });
+
+  function updateProgress() {
+    const required = document.querySelectorAll('[required]');
+    let filled = 0;
+    required.forEach(el => {
+      if (el.type === 'radio') {
+        if (document.querySelector(`[name=${el.name}]:checked`)) filled++;
+      } else if (el.value.trim()) filled++;
+    });
+    const pct = Math.round((filled / required.length) * 100);
+    document.getElementById('progress').style.width = pct + '%';
+  }
+  document.getElementById('survey').addEventListener('input', updateProgress);
+  document.getElementById('survey').addEventListener('change', updateProgress);
+
+  // 送信 → Googleスプレッドシートに送信
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxOw7sA0l0oFB3WbJgX7QIUlOttjeIj6EzK9Yd9l87U8J_PfN_0twEmkmXNjnKznewx5A/exec';
+
+  document.getElementById('survey').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = collectFormData();
+
+    // ローカルにも保存
+    const records = loadRecords();
+    records.push(data);
+    saveRecords(records);
+
+    // ボタンをローディング状態に
+    const btn = this.querySelector('button[type=submit]');
+    btn.textContent = '送信中...';
+    btn.disabled = true;
+
+    // Googleスプレッドシートに送信
+    fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(() => {
+      this.style.display = 'none';
+      document.getElementById('success').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .catch(() => {
+      this.style.display = 'none';
+      document.getElementById('success').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
