@@ -290,6 +290,38 @@
 
   .success p { color: var(--muted); font-size: 14px; }
 
+  .freq-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    min-width: 620px;
+  }
+  .freq-table th, .freq-table td {
+    border: 1px solid var(--border);
+    padding: 5px 6px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .freq-table thead th {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 500;
+    font-size: 11px;
+  }
+  .ft-food {
+    text-align: left !important;
+    min-width: 160px;
+    background: var(--accent-light);
+    font-weight: 500;
+    padding: 6px 10px !important;
+  }
+  .ft-freq { min-width: 52px; }
+  .ft-group { background: #2a5a3a !important; }
+  .freq-table tbody tr:nth-child(even) { background: #f9faf9; }
+  .freq-table tbody tr:hover { background: var(--accent-light); }
+  .freq-table input[type=radio] { accent-color: var(--accent); width:14px;height:14px; }
+  .food-sub { font-size:10px; color: var(--muted); font-weight:400; display:block; }
+
   .error-highlight {
     border-left: 3px solid var(--error);
     padding-left: 12px;
@@ -587,6 +619,38 @@
       </div>
     </div>
 
+
+    <!-- セクション5: 食生活 -->
+    <div class="section">
+      <div class="section-title"><div class="icon">🥗</div>食生活（食品摂取頻度）</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">最近1か月、次の食品や料理をどのくらいの頻度で食べましたか。回答はひとつだけ選んでください。</p>
+
+      <div style="overflow-x:auto;">
+      <table class="freq-table">
+        <thead>
+          <tr>
+            <th class="ft-food" rowspan="2">食品・料理</th>
+            <th class="ft-freq" rowspan="2">ほとんど<br>食べない</th>
+            <th class="ft-freq" rowspan="2">月<br>1〜3回</th>
+            <th class="ft-group" colspan="3">週</th>
+            <th class="ft-group" colspan="3">毎日</th>
+          </tr>
+          <tr>
+            <th class="ft-freq">1〜2回</th>
+            <th class="ft-freq">3〜4回</th>
+            <th class="ft-freq">5〜6回</th>
+            <th class="ft-freq">1回</th>
+            <th class="ft-freq">2回</th>
+            <th class="ft-freq">3回<br>以上</th>
+          </tr>
+        </thead>
+        <tbody id="freq-tbody">
+        </tbody>
+      </table>
+      </div>
+      <p id="food-error" class="field-error" style="display:none;margin-top:8px;">※ すべての食品に回答してください</p>
+    </div>
+
     <div class="submit-area">
       <div class="consent-box">
         ✅ 本質問票への回答は自由意志によるものであり、回答の拒否や中断によって不利益を受けることはありません。収集したデータは統計処理を行い、個人が特定されない形で研究に使用します。
@@ -653,6 +717,28 @@
     { key: 'medication',      label: '服薬' },
     { key: 'checkup',         label: '健康診断受診' },
     { key: 'comment',         label: '自由記述' },
+    { key: 'food_gohan_zakkoku', label: 'ごはん（雑穀・玄米等）' },
+    { key: 'food_gohan_white', label: 'ごはん（白米）' },
+    { key: 'food_bread_whole', label: 'パン（全粒粉・ライ麦等）' },
+    { key: 'food_bread_other', label: 'パン（上記以外）' },
+    { key: 'food_cereal', label: 'シリアル' },
+    { key: 'food_noodle', label: 'めん類' },
+    { key: 'food_potato', label: 'いも類・いも入り料理' },
+    { key: 'food_miso', label: 'みそ汁' },
+    { key: 'food_soy', label: '大豆製品' },
+    { key: 'food_veg_raw', label: '生野菜・サラダ' },
+    { key: 'food_veg_cooked', label: '調理した野菜・野菜料理' },
+    { key: 'food_mushroom', label: 'きのこ入り料理や汁物' },
+    { key: 'food_seaweed', label: '海そう入り料理や汁物' },
+    { key: 'food_fruit', label: '果物' },
+    { key: 'food_fish', label: '魚介類' },
+    { key: 'food_beef_pork', label: '牛肉・豚肉・レバー' },
+    { key: 'food_chicken', label: 'とり肉' },
+    { key: 'food_egg', label: '卵・卵料理' },
+    { key: 'food_dairy', label: '牛乳・乳製品' },
+    { key: 'food_nuts', label: 'ナッツ類' },
+    { key: 'food_salty', label: '塩分を多く含む食品' },
+    { key: 'food_fried', label: '揚げ物' },
   ];
 
   const STORAGE_KEY = 'survey_data_v1';
@@ -790,6 +876,66 @@
   document.getElementById('survey').addEventListener('input', updateProgress);
   document.getElementById('survey').addEventListener('change', updateProgress);
 
+
+  // ---- 食品摂取頻度テーブル生成 ----
+  const FOOD_ITEMS = [
+    { key: 'food_gohan_zakkoku', label: 'ごはん', sub: '雑穀や麦を混ぜたごはん、玄米、胚芽米、分つき米' },
+    { key: 'food_gohan_white',   label: 'ごはん', sub: '白ごはん（雑穀を混ぜないもの）' },
+    { key: 'food_bread_whole',   label: 'パン', sub: '全粒粉ライ麦大麦雑穀のパン' },
+    { key: 'food_bread_other',   label: 'パン', sub: '上記以外のパン' },
+    { key: 'food_cereal',        label: 'シリアル', sub: 'コーンフレーク、グラノーラなど' },
+    { key: 'food_noodle',        label: 'めん類', sub: 'うどん、ラーメン、そば、パスタなど' },
+    { key: 'food_potato',        label: 'いも類・いも入り料理', sub: '肉じゃが、カレーライス、ポテトサラダなど' },
+    { key: 'food_miso',          label: 'みそ汁', sub: '' },
+    { key: 'food_soy',           label: '大豆製品', sub: '納豆、豆腐、がんもどき、豆乳など' },
+    { key: 'food_veg_raw',       label: '生野菜・サラダ', sub: '' },
+    { key: 'food_veg_cooked',    label: '調理した野菜・野菜料理', sub: 'おひたしなど、野菜がたくさん入った料理や汁物' },
+    { key: 'food_mushroom',      label: 'きのこ入り料理や汁物', sub: '' },
+    { key: 'food_seaweed',       label: '海そう入り料理や汁物', sub: '乾燥のりを含む' },
+    { key: 'food_fruit',         label: '果物', sub: '' },
+    { key: 'food_fish',          label: '魚介類', sub: '缶詰、かまぼこなどの練製品も含む' },
+    { key: 'food_beef_pork',     label: '牛肉・豚肉・レバー', sub: 'ハム、ソーセージなど加工品も含む' },
+    { key: 'food_chicken',       label: 'とり肉', sub: '' },
+    { key: 'food_egg',           label: '卵・卵料理', sub: '' },
+    { key: 'food_dairy',         label: '牛乳・乳製品', sub: 'チーズ、ヨーグルトなど' },
+    { key: 'food_nuts',          label: 'ナッツ類', sub: 'ピーナッツ、アーモンド、クルミ、ピスタチオなど' },
+    { key: 'food_salty',         label: '塩分を多く含む食品', sub: '塩辛、漬物、干物、塩蔵の魚や魚卵など' },
+    { key: 'food_fried',         label: '揚げ物', sub: '天ぷら、唐揚げ、カツ、フライ、フライドポテトなど' },
+  ];
+
+  const FREQ_VALUES = [
+    { value: '1', label: 'ほとんど<br>食べない' },
+    { value: '2', label: '月<br>1〜3回' },
+    { value: '3', label: '週<br>1〜2回' },
+    { value: '4', label: '週<br>3〜4回' },
+    { value: '5', label: '週<br>5〜6回' },
+    { value: '6', label: '毎日<br>1回' },
+    { value: '7', label: '毎日<br>2回' },
+    { value: '8', label: '毎日<br>3回以上' },
+  ];
+
+  (function buildFoodTable() {
+    const tbody = document.getElementById('freq-tbody');
+    FOOD_ITEMS.forEach(item => {
+      const tr = document.createElement('tr');
+      const tdLabel = document.createElement('td');
+      tdLabel.className = 'ft-food';
+      tdLabel.innerHTML = item.label + (item.sub ? `<span class="food-sub">${item.sub}</span>` : '');
+      tr.appendChild(tdLabel);
+      FREQ_VALUES.forEach(freq => {
+        const td = document.createElement('td');
+        td.innerHTML = `<input type="radio" name="${item.key}" value="${freq.value}" required>`;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  })();
+
+  // 食品バリデーション
+  function validateFood() {
+    return FOOD_ITEMS.every(item => document.querySelector(`[name="${item.key}"]:checked`));
+  }
+
   // ---- バリデーション ----
   // 必須ラジオグループ
   const REQUIRED_RADIOS = ['sex','shift','meals','alcohol','smoking','exercise','work_activity','stress','checkup'];
@@ -839,6 +985,9 @@
       if (!cig.value) errors.push('cigarettes');
     }
 
+    // 食品摂取頻度
+    if (!validateFood()) errors.push('food_table');
+
     return errors;
   }
 
@@ -861,9 +1010,17 @@
       }
     });
 
+    // 食品テーブルのエラー表示
+    const foodErr = document.getElementById('food-error');
+    if (errors.includes('food_table')) {
+      foodErr.style.display = 'block';
+    } else {
+      foodErr.style.display = 'none';
+    }
+
     // 最初のエラー箇所にスクロール
     if (errors.length > 0) {
-      const first = document.querySelector('.error-highlight');
+      const first = document.querySelector('.error-highlight') || document.getElementById('food-error');
       if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
