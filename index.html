@@ -3,1072 +3,1610 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>生活習慣病疫学調査 質問票</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<title>職域多施設研究（J-ECOHスタディ）調査票</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #f4f1eb;
-    --surface: #ffffff;
-    --primary: #1a3a2a;
-    --accent: #4a7c59;
-    --accent-light: #e8f0eb;
-    --text: #1c2b22;
-    --muted: #6b7f72;
-    --border: #d0dbd3;
-    --error: #c0392b;
-    --radius: 10px;
-  }
+:root {
+  --primary: #1a3a6b;
+  --accent: #2563a8;
+  --accent-light: #e8f0fb;
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --text: #1a1a2e;
+  --muted: #5a6a80;
+  --border: #ccd6e8;
+  --error: #c0392b;
+  --radius: 8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: 'Noto Sans JP', sans-serif; color: var(--text); font-size: 14px; line-height: 1.7; }
+.wrapper { max-width: 860px; margin: 0 auto; padding: 32px 16px 80px; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ヘッダー */
+.header-box { background: var(--primary); color: #fff; border-radius: 12px; padding: 28px 32px; margin-bottom: 28px; }
+.header-box h1 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.header-box .sub { font-size: 12px; opacity: 0.8; }
 
-  body {
-    background: var(--bg);
-    font-family: 'Noto Sans JP', sans-serif;
-    color: var(--text);
-    min-height: 100vh;
-    padding: 40px 16px 80px;
-  }
+/* 説明ボックス */
+.info-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; }
+.info-box h3 { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 8px; border-left: 3px solid var(--accent); padding-left: 10px; }
+.info-box ul { list-style: none; padding: 0; }
+.info-box ul li { font-size: 12px; color: var(--muted); padding: 2px 0 2px 14px; position: relative; }
+.info-box ul li::before { content: '・'; position: absolute; left: 0; }
 
-  .wrapper {
-    max-width: 720px;
-    margin: 0 auto;
-  }
+/* プログレス */
+.progress-wrap { margin-bottom: 28px; }
+.progress-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.progress-bar { background: var(--border); height: 6px; border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.4s; width: 0%; }
 
-  header {
-    text-align: center;
-    margin-bottom: 48px;
-    animation: fadeDown 0.7s ease both;
-  }
+/* セクション */
+.section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; }
+.section-header { background: var(--primary); color: #fff; padding: 12px 20px; font-size: 14px; font-weight: 700; }
+.section-body { padding: 20px 24px; }
 
-  header .tag {
-    display: inline-block;
-    background: var(--primary);
-    color: #fff;
-    font-size: 11px;
-    letter-spacing: 2px;
-    padding: 4px 14px;
-    border-radius: 20px;
-    margin-bottom: 16px;
-    font-weight: 500;
-  }
+/* フィールド */
+.field { margin-bottom: 20px; }
+.field:last-child { margin-bottom: 0; }
+.q-label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; display: block; }
+.q-label .req { color: var(--error); font-size: 11px; font-weight: 400; margin-left: 6px; }
+.q-note { font-size: 11px; color: var(--muted); margin-bottom: 8px; display: block; }
 
-  header h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(22px, 5vw, 34px);
-    color: var(--primary);
-    line-height: 1.3;
-    margin-bottom: 12px;
-  }
+/* ラジオ・チェック */
+.radio-wrap, .check-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+.radio-wrap label, .check-wrap label {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border: 1.5px solid var(--border); border-radius: 20px;
+  cursor: pointer; font-size: 13px; font-weight: 400; transition: all 0.2s;
+  background: #fafbfd;
+}
+.radio-wrap label:hover, .check-wrap label:hover { border-color: var(--accent); background: var(--accent-light); }
+.radio-wrap input, .check-wrap input { accent-color: var(--accent); }
 
-  header p {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.8;
-    max-width: 520px;
-    margin: 0 auto;
-  }
+/* テキスト入力 */
+.input-row { display: flex; align-items: center; gap: 8px; }
+.input-row input { padding: 8px 12px; border: 1.5px solid var(--border); border-radius: var(--radius); font-size: 13px; font-family: inherit; outline: none; transition: border 0.2s; }
+.input-row input:focus { border-color: var(--accent); }
+.input-row span { font-size: 13px; color: var(--muted); white-space: nowrap; }
+input[type=number], input[type=text], select, textarea {
+  padding: 8px 12px; border: 1.5px solid var(--border); border-radius: var(--radius);
+  font-size: 13px; font-family: inherit; outline: none; background: #fafbfd;
+  transition: border 0.2s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--accent); background: #fff; }
+select { width: 100%; }
 
-  .progress-bar {
-    background: var(--border);
-    height: 4px;
-    border-radius: 2px;
-    margin-bottom: 40px;
-    overflow: hidden;
-  }
+/* グリッドラジオ（リッカート系） */
+.likert-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.likert-table th, .likert-table td { border: 1px solid var(--border); padding: 7px 6px; text-align: center; vertical-align: middle; }
+.likert-table th { background: var(--primary); color: #fff; font-weight: 500; font-size: 11px; }
+.likert-table .q-cell { text-align: left; padding: 7px 10px; background: var(--accent-light); font-size: 12px; min-width: 200px; }
+.likert-table tbody tr:nth-child(even) { background: #f7f9fd; }
+.likert-table input[type=radio] { accent-color: var(--accent); }
 
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 2px;
-    transition: width 0.4s ease;
-    width: 0%;
-  }
+/* 食品頻度テーブル */
+.freq-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
+.freq-table th, .freq-table td { border: 1px solid var(--border); padding: 5px 5px; text-align: center; vertical-align: middle; }
+.freq-table th { background: var(--primary); color: #fff; font-size: 11px; font-weight: 500; }
+.freq-table .f-cat { background: #e8edf8; font-weight: 700; text-align: left; padding: 5px 8px; }
+.freq-table .f-item { text-align: left; padding: 5px 8px; min-width: 200px; font-size: 12px; }
+.freq-table tbody tr:hover { background: var(--accent-light); }
+.freq-table input[type=radio] { accent-color: var(--accent); }
+.scroll-hint { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
 
-  .section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 32px;
-    margin-bottom: 24px;
-    animation: fadeUp 0.5s ease both;
-    box-shadow: 0 2px 12px rgba(26,58,42,0.05);
-  }
+/* 運動テーブル */
+.act-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 640px; }
+.act-table th, .act-table td { border: 1px solid var(--border); padding: 6px 5px; text-align: center; vertical-align: middle; }
+.act-table th { background: var(--primary); color: #fff; font-size: 11px; }
+.act-table .a-item { text-align: left; padding: 6px 10px; min-width: 200px; font-size: 12px; background: var(--accent-light); }
+.act-table input[type=radio] { accent-color: var(--accent); }
 
-  .section:nth-child(1) { animation-delay: 0.1s; }
-  .section:nth-child(2) { animation-delay: 0.2s; }
-  .section:nth-child(3) { animation-delay: 0.3s; }
-  .section:nth-child(4) { animation-delay: 0.4s; }
+/* エラー */
+.field-error { color: var(--error); font-size: 11px; margin-top: 5px; display: none; }
+.field.has-error .q-label { color: var(--error); }
+.field.has-error .radio-wrap label, .field.has-error .check-wrap label { border-color: #e8b4b0; }
+.field.has-error input, .field.has-error select { border-color: var(--error); }
 
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 24px;
-    padding-bottom: 14px;
-    border-bottom: 2px solid var(--accent-light);
-  }
+/* 送信 */
+.submit-area { text-align: center; margin-top: 32px; }
+.consent-note { background: var(--accent-light); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; font-size: 12px; color: var(--muted); margin-bottom: 20px; text-align: left; }
+.btn-submit { background: var(--primary); color: #fff; border: none; padding: 14px 56px; font-size: 15px; font-family: inherit; font-weight: 700; border-radius: 50px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 16px rgba(26,58,107,0.2); }
+.btn-submit:hover { background: var(--accent); transform: translateY(-1px); }
 
-  .section-title .icon {
-    width: 30px;
-    height: 30px;
-    background: var(--accent-light);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    flex-shrink: 0;
-  }
+/* 完了画面 */
+.success { display: none; text-align: center; padding: 60px 20px; }
+.success .ck { width: 64px; height: 64px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 20px; color: #fff; }
+.success h2 { font-size: 22px; color: var(--primary); margin-bottom: 10px; }
+.success p { color: var(--muted); font-size: 13px; }
 
-  .field {
-    margin-bottom: 22px;
-  }
+/* 条件表示 */
+.conditional { display: none; }
 
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-
-  label .required {
-    color: var(--error);
-    margin-left: 4px;
-    font-size: 11px;
-  }
-
-  input[type="number"],
-  input[type="text"],
-  select,
-  textarea {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: #fafafa;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-  }
-
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(74,124,89,0.12);
-    background: #fff;
-  }
-
-  .input-unit {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .input-unit input { flex: 1; }
-  .input-unit span {
-    font-size: 13px;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-
-  .radio-group, .checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .radio-group label, .checkbox-group label {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 400;
-    transition: all 0.2s;
-    margin: 0;
-    background: #fafafa;
-  }
-
-  .radio-group label:hover, .checkbox-group label:hover {
-    border-color: var(--accent);
-    background: var(--accent-light);
-  }
-
-  .radio-group input[type="radio"],
-  .checkbox-group input[type="checkbox"] {
-    width: auto;
-    accent-color: var(--accent);
-  }
-
-  .row-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  @media (max-width: 480px) { .row-2 { grid-template-columns: 1fr; } }
-
-  .hint {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 5px;
-  }
-
-  .submit-area {
-    text-align: center;
-    margin-top: 36px;
-    animation: fadeUp 0.5s 0.5s ease both;
-  }
-
-  .consent-box {
-    background: var(--accent-light);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.8;
-    margin-bottom: 24px;
-    text-align: left;
-  }
-
-  button[type="submit"] {
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    padding: 14px 56px;
-    font-size: 15px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 700;
-    border-radius: 50px;
-    cursor: pointer;
-    letter-spacing: 1px;
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    box-shadow: 0 4px 16px rgba(26,58,42,0.18);
-  }
-
-  button[type="submit"]:hover {
-    background: var(--accent);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(74,124,89,0.3);
-  }
-
-  button[type="submit"]:active { transform: translateY(0); }
-
-  .success {
-    display: none;
-    text-align: center;
-    padding: 60px 20px;
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .success .checkmark {
-    width: 64px;
-    height: 64px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    margin: 0 auto 20px;
-  }
-
-  .success h2 {
-    font-size: 22px;
-    color: var(--primary);
-    margin-bottom: 10px;
-  }
-
-  .success p { color: var(--muted); font-size: 14px; }
-
-  .freq-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-    min-width: 620px;
-  }
-  .freq-table th, .freq-table td {
-    border: 1px solid var(--border);
-    padding: 5px 6px;
-    text-align: center;
-    vertical-align: middle;
-  }
-  .freq-table thead th {
-    background: var(--primary);
-    color: #fff;
-    font-weight: 500;
-    font-size: 11px;
-  }
-  .ft-food {
-    text-align: left !important;
-    min-width: 160px;
-    background: var(--accent-light);
-    font-weight: 500;
-    padding: 6px 10px !important;
-  }
-  .ft-freq { min-width: 52px; }
-  .ft-group { background: #2a5a3a !important; }
-  .freq-table tbody tr:nth-child(even) { background: #f9faf9; }
-  .freq-table tbody tr:hover { background: var(--accent-light); }
-  .freq-table input[type=radio] { accent-color: var(--accent); width:14px;height:14px; }
-  .food-sub { font-size:10px; color: var(--muted); font-weight:400; display:block; }
-
-  .error-highlight {
-    border-left: 3px solid var(--error);
-    padding-left: 12px;
-  }
-  .field-error {
-    color: var(--error);
-    font-size: 11px;
-    margin-top: 5px;
-  }
-
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+@media(max-width:600px) { .section-body { padding: 14px 14px; } }
 </style>
 </head>
 <body>
 <div class="wrapper">
-  <header>
-    <div class="tag">EPIDEMIOLOGICAL SURVEY</div>
-    <h1>生活習慣病に関する<br>疫学調査 質問票</h1>
-    <p>本調査は、製造業従事者の生活習慣と健康状態の関連を明らかにすることを目的としています。回答内容は研究目的のみに使用し、個人が特定される形での公表は行いません。</p>
-  </header>
 
+<div class="header-box">
+  <h1>職域多施設研究（J-ECOHスタディ）調査票</h1>
+  <div class="sub">株式会社クボタ 保健事業推進調査</div>
+</div>
+
+<div class="info-box">
+  <h3>【本調査の目的】</h3>
+  <ul>
+    <li>「職域多施設研究（J-ECOHスタディ）」の一環として、働き方や生活習慣をお尋ねし、健康診断データと関連付けることで健康影響を明らかにします。</li>
+    <li>また、株式会社クボタの保健事業推進のため、事業所の課題を分析します。</li>
+  </ul>
+</div>
+
+<div class="info-box">
+  <h3>【個人情報保護・倫理審査について】</h3>
+  <ul>
+    <li>ご回答いただいたデータは、研究事務局である国立健康危機管理研究機構疫学・予防研究部にて健康診断や疾病休業等のデータと突合し、統計的に分析します。</li>
+    <li>発表に際しては、統計処理をした結果のみを示し、個人が特定されることはありません。</li>
+    <li>産業医や産業保健師が保健指導などのため利活用することがあります。</li>
+    <li>本調査は、同機構倫理審査委員会の承認を得ています。</li>
+  </ul>
+</div>
+
+<div class="info-box">
+  <h3>【回答上のご注意】</h3>
+  <ul>
+    <li>回答に要する時間は15～20分程度です。あてはまる選択肢を選んでください。</li>
+    <li>ご協力いただいた方には、健診会場にて記念品（3色ボールペン）を差し上げます。</li>
+    <li>ご協力いただけない場合は、社員番号と氏名をご入力の上「同意しない」を選択し、回答を送信してください。</li>
+  </ul>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">回答進捗</div>
   <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+</div>
 
-  <form id="survey" novalidate>
+<form id="survey" novalidate>
 
-    <!-- セクション1: 基本属性 -->
-    <div class="section">
-      <div class="section-title"><div class="icon">👤</div>基本属性</div>
-
-      <div class="row-2">
-        <div class="field">
-          <label>年齢<span class="required">*必須</span></label>
-          <div class="input-unit">
-            <input type="number" name="age" min="15" max="80" placeholder="例: 42" required>
-            <span>歳</span>
-          </div>
-        </div>
-        <div class="field">
-          <label>性別<span class="required">*必須</span></label>
-          <div class="radio-group">
-            <label><input type="radio" name="sex" value="male" required> 男性</label>
-            <label><input type="radio" name="sex" value="female"> 女性</label>
-            <label><input type="radio" name="sex" value="other"> その他</label>
-          </div>
-        </div>
+<!-- ===== 同意 ===== -->
+<div class="section">
+  <div class="section-header">1. 調査への同意</div>
+  <div class="section-body">
+    <div class="field" id="f-consent">
+      <span class="q-label">ご回答の前に調査への同意の確認のため、以下のいずれかを選んでください。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="consent" value="1"> 同意する</label>
+        <label><input type="radio" name="consent" value="2"> 同意しない</label>
       </div>
+      <p class="field-error" id="e-consent">※ 選択してください</p>
+    </div>
+  </div>
+</div>
 
-      <div class="row-2">
-        <div class="field">
-          <label>身長</label>
-          <div class="input-unit">
-            <input type="number" name="height" min="130" max="220" placeholder="例: 170">
-            <span>cm</span>
-          </div>
-        </div>
-        <div class="field">
-          <label>体重</label>
-          <div class="input-unit">
-            <input type="number" name="weight" min="30" max="200" placeholder="例: 65">
-            <span>kg</span>
-          </div>
-        </div>
-      </div>
-      <p class="hint" id="bmi-display"></p>
+<!-- ===== 基本情報 ===== -->
+<div class="section">
+  <div class="section-header">基本情報</div>
+  <div class="section-body">
+    <div class="field" id="f-empno">
+      <span class="q-label">2. 社員番号<span class="req">*必須</span></span>
+      <span class="q-note">調査に同意しない方も入力してください。</span>
+      <input type="text" name="empno" style="width:200px;" placeholder="社員番号">
+      <p class="field-error" id="e-empno">※ 入力してください</p>
+    </div>
+    <div class="field" id="f-name">
+      <span class="q-label">3. 名前（漢字）<span class="req">*必須</span></span>
+      <span class="q-note">全角で入力してください。調査に同意されない方も入力してください。※外国籍の方はカタカナで入力してください。</span>
+      <input type="text" name="name" style="width:240px;" placeholder="例：山田　太郎">
+      <p class="field-error" id="e-name">※ 入力してください</p>
+    </div>
+  </div>
+</div>
 
-      <div class="field">
-        <label>勤務形態<span class="required">*必須</span></label>
-        <div class="radio-group">
-          <label><input type="radio" name="shift" value="day" required> 日勤のみ</label>
-          <label><input type="radio" name="shift" value="shift"> 交替勤務（夜勤あり）</label>
-          <label><input type="radio" name="shift" value="night"> 夜勤専従</label>
-        </div>
-      </div>
+<!-- ===== 1. 仕事 ===== -->
+<div class="section">
+  <div class="section-header">１．仕事</div>
+  <div class="section-body">
 
-      <div class="field">
-        <label>現職での勤続年数</label>
-        <div class="input-unit">
-          <input type="number" name="years" min="0" max="50" placeholder="例: 8">
-          <span>年</span>
-        </div>
+    <div class="field" id="f-shift">
+      <span class="q-label">勤務の形態<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="shift" value="1"> 常昼</label>
+        <label><input type="radio" name="shift" value="2"> ２交代</label>
+        <label><input type="radio" name="shift" value="3"> 変則勤務(早番,遅番)</label>
+        <label><input type="radio" name="shift" value="4"> フレックス勤務</label>
+        <label><input type="radio" name="shift" value="5"> その他</label>
       </div>
+      <p class="field-error" id="e-shift">※ 選択してください</p>
     </div>
 
-    <!-- セクション2: 食事・飲酒・喫煙 -->
-    <div class="section">
-      <div class="section-title"><div class="icon">🍱</div>食事・飲酒・喫煙習慣</div>
-
-      <div class="field">
-        <label>1日の食事回数<span class="required">*必須</span></label>
-        <div class="radio-group">
-          <label><input type="radio" name="meals" value="1" required> 1回</label>
-          <label><input type="radio" name="meals" value="2"> 2回</label>
-          <label><input type="radio" name="meals" value="3"> 3回</label>
-          <label><input type="radio" name="meals" value="4+"> 4回以上</label>
-        </div>
+    <div class="field" id="f-telework">
+      <span class="q-label">先月、テレワーク（在宅勤務等）を行った頻度<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="telework" value="1"> なし</label>
+        <label><input type="radio" name="telework" value="2"> 月1～3日</label>
+        <label><input type="radio" name="telework" value="3"> 週1～2日（月4～10日）</label>
+        <label><input type="radio" name="telework" value="4"> 週3日以上（月11日以上）</label>
       </div>
-
-      <div class="field">
-        <label>朝食の摂取頻度<span class="required">*必須</span></label>
-        <select name="breakfast" required>
-          <option value="">選択してください</option>
-          <option value="everyday">毎日食べる</option>
-          <option value="mostly">ほぼ毎日（週5〜6日）</option>
-          <option value="sometimes">ときどき（週3〜4日）</option>
-          <option value="rarely">あまり食べない（週1〜2日）</option>
-          <option value="never">ほとんど食べない</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>外食・コンビニ食の頻度<span class="required">*必須</span></label>
-        <select name="eating_out" required>
-          <option value="">選択してください</option>
-          <option value="everyday">毎日</option>
-          <option value="often">週4〜6回</option>
-          <option value="sometimes">週2〜3回</option>
-          <option value="rarely">週1回以下</option>
-          <option value="never">ほとんどなし</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>飲酒習慣<span class="required">*必須</span></label>
-        <div class="radio-group">
-          <label><input type="radio" name="alcohol" value="none" required> 飲まない</label>
-          <label><input type="radio" name="alcohol" value="past"> 以前は飲んでいた</label>
-          <label><input type="radio" name="alcohol" value="sometimes"> 時々飲む</label>
-          <label><input type="radio" name="alcohol" value="daily"> ほぼ毎日飲む</label>
-        </div>
-      </div>
-
-      <div class="field" id="alcohol-amount-field" style="display:none;">
-        <label>1日あたりの平均飲酒量（純アルコール換算）</label>
-        <select name="alcohol_amount">
-          <option value="">選択してください</option>
-          <option value="less20">20g未満（ビール500ml以下）</option>
-          <option value="20-40">20〜40g（ビール500ml〜1L程度）</option>
-          <option value="40-60">40〜60g</option>
-          <option value="over60">60g以上</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>喫煙習慣<span class="required">*必須</span></label>
-        <div class="radio-group">
-          <label><input type="radio" name="smoking" value="never" required> 吸わない</label>
-          <label><input type="radio" name="smoking" value="past"> 過去に吸っていた</label>
-          <label><input type="radio" name="smoking" value="current"> 現在吸っている</label>
-        </div>
-      </div>
-
-      <div class="field" id="smoking-amount-field" style="display:none;">
-        <label>1日あたりの喫煙本数</label>
-        <div class="input-unit">
-          <input type="number" name="cigarettes" min="1" max="100" placeholder="例: 10">
-          <span>本/日</span>
-        </div>
-      </div>
+      <p class="field-error" id="e-telework">※ 選択してください</p>
     </div>
 
-    <!-- セクション3: 運動・睡眠 -->
-    <div class="section">
-      <div class="section-title"><div class="icon">🏃</div>運動・睡眠習慣</div>
-
-      <div class="field">
-        <label>定期的な運動習慣<span class="required">*必須</span></label>
-        <div class="radio-group">
-          <label><input type="radio" name="exercise" value="none" required> ほとんどしない</label>
-          <label><input type="radio" name="exercise" value="sometimes"> 月1〜3回</label>
-          <label><input type="radio" name="exercise" value="weekly"> 週1〜2回</label>
-          <label><input type="radio" name="exercise" value="often"> 週3回以上</label>
-        </div>
+    <div class="field" id="f-overtime">
+      <span class="q-label">先月の時間外労働時間（休日出勤を含む残業）<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="overtime" value="1"> なし</label>
+        <label><input type="radio" name="overtime" value="2"> 月10時間以下</label>
+        <label><input type="radio" name="overtime" value="3"> 月11～30時間</label>
+        <label><input type="radio" name="overtime" value="4"> 月31～45時間</label>
+        <label><input type="radio" name="overtime" value="5"> 月46～60時間</label>
+        <label><input type="radio" name="overtime" value="6"> 月61～80時間</label>
+        <label><input type="radio" name="overtime" value="7"> 月81時間以上</label>
       </div>
-
-      <div class="field">
-        <label>主な運動の種類（複数選択可）<span class="required">*必須</span></label>
-        <div class="checkbox-group">
-          <label><input type="checkbox" name="exercise_type" value="walking"> ウォーキング</label>
-          <label><input type="checkbox" name="exercise_type" value="running"> ジョギング・ランニング</label>
-          <label><input type="checkbox" name="exercise_type" value="gym"> ジム・筋トレ</label>
-          <label><input type="checkbox" name="exercise_type" value="sports"> スポーツ</label>
-          <label><input type="checkbox" name="exercise_type" value="other"> その他</label>
-        </div>
-      </div>
-
-      <div class="row-2">
-        <div class="field">
-          <label>平均睡眠時間<span class="required">*必須</span></label>
-          <select name="sleep_hours" required>
-            <option value="">選択してください</option>
-            <option value="less5">5時間未満</option>
-            <option value="5-6">5〜6時間</option>
-            <option value="6-7">6〜7時間</option>
-            <option value="7-8">7〜8時間</option>
-            <option value="over8">8時間以上</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>睡眠の質の自己評価<span class="required">*必須</span></label>
-          <select name="sleep_quality" required>
-            <option value="">選択してください</option>
-            <option value="very_good">とても良い</option>
-            <option value="good">良い</option>
-            <option value="fair">普通</option>
-            <option value="poor">悪い</option>
-            <option value="very_poor">とても悪い</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>仕事中の身体活動レベル<span class="required">*必須</span></label>
-        <div class="radio-group">
-          <label><input type="radio" name="work_activity" value="sedentary" required> ほぼ座り仕事</label>
-          <label><input type="radio" name="work_activity" value="light"> 立ち仕事・軽作業</label>
-          <label><input type="radio" name="work_activity" value="moderate"> 中程度の肉体労働</label>
-          <label><input type="radio" name="work_activity" value="heavy"> 重作業・重労働</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>主観的なストレスレベル（直近1ヶ月）<span class="required">*必須</span></label>
-        <div class="radio-group">
-          <label><input type="radio" name="stress" value="1" required> 1（低い）</label>
-          <label><input type="radio" name="stress" value="2"> 2</label>
-          <label><input type="radio" name="stress" value="3"> 3</label>
-          <label><input type="radio" name="stress" value="4"> 4</label>
-          <label><input type="radio" name="stress" value="5"> 5（高い）</label>
-        </div>
-      </div>
+      <p class="field-error" id="e-overtime">※ 選択してください</p>
     </div>
 
-    <!-- セクション4: 既往歴・服薬 -->
-    <div class="section">
-      <div class="section-title"><div class="icon">🏥</div>既往歴・服薬状況</div>
-
-      <div class="field">
-        <label>現在治療中または診断されている疾患（複数選択可）<span class="required">*必須</span></label>
-        <div class="checkbox-group">
-          <label><input type="checkbox" name="disease" value="none"> なし</label>
-          <label><input type="checkbox" name="disease" value="hypertension"> 高血圧</label>
-          <label><input type="checkbox" name="disease" value="diabetes"> 糖尿病・血糖異常</label>
-          <label><input type="checkbox" name="disease" value="dyslipidemia"> 脂質異常症</label>
-          <label><input type="checkbox" name="disease" value="obesity"> 肥満</label>
-          <label><input type="checkbox" name="disease" value="heart"> 心疾患</label>
-          <label><input type="checkbox" name="disease" value="stroke"> 脳卒中</label>
-          <label><input type="checkbox" name="disease" value="kidney"> 腎疾患</label>
-          <label><input type="checkbox" name="disease" value="other"> その他</label>
-        </div>
+    <div class="field" id="f-interval">
+      <span class="q-label">先月、終業から次の始業までの間（勤務間インターバル）が11時間未満であった回数<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="interval" value="1"> なし</label>
+        <label><input type="radio" name="interval" value="2"> 1回</label>
+        <label><input type="radio" name="interval" value="3"> 2回</label>
+        <label><input type="radio" name="interval" value="4"> 3回</label>
+        <label><input type="radio" name="interval" value="5"> 4～5回</label>
+        <label><input type="radio" name="interval" value="6"> 6～7回</label>
+        <label><input type="radio" name="interval" value="7"> 8回以上</label>
       </div>
-
-      <div class="field">
-        <label>家族歴（親・兄弟姉妹）（複数選択可）<span class="required">*必須</span></label>
-        <div class="checkbox-group">
-          <label><input type="checkbox" name="family_history" value="none"> なし/不明</label>
-          <label><input type="checkbox" name="family_history" value="hypertension"> 高血圧</label>
-          <label><input type="checkbox" name="family_history" value="diabetes"> 糖尿病</label>
-          <label><input type="checkbox" name="family_history" value="dyslipidemia"> 脂質異常症</label>
-          <label><input type="checkbox" name="family_history" value="heart"> 心疾患</label>
-          <label><input type="checkbox" name="family_history" value="stroke"> 脳卒中</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>現在服用中の薬（複数選択可）<span class="required">*必須</span></label>
-        <div class="checkbox-group">
-          <label><input type="checkbox" name="medication" value="none"> なし</label>
-          <label><input type="checkbox" name="medication" value="antihypertensive"> 降圧薬</label>
-          <label><input type="checkbox" name="medication" value="antidiabetic"> 血糖降下薬・インスリン</label>
-          <label><input type="checkbox" name="medication" value="statin"> 脂質異常症治療薬</label>
-          <label><input type="checkbox" name="medication" value="anticoagulant"> 抗凝固薬・抗血小板薬</label>
-          <label><input type="checkbox" name="medication" value="other"> その他</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>直近1年以内の健康診断の受診<span class="required">*必須</span></label>
-        <div class="radio-group">
-          <label><input type="radio" name="checkup" value="yes" required> 受診した</label>
-          <label><input type="radio" name="checkup" value="no"> 受診していない</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>自由記述（気になる症状・その他）</label>
-        <textarea name="comment" rows="3" placeholder="例：最近疲れやすい、血圧が高いと言われた、など"></textarea>
-      </div>
+      <p class="field-error" id="e-interval">※ 選択してください</p>
     </div>
 
+    <div class="field" id="f-overtime12">
+      <span class="q-label">過去12か月で、ひと月の時間外労働（休日出勤を含む残業）が45時間を超えた月数<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="overtime12" value="1"> なし</label>
+        <label><input type="radio" name="overtime12" value="2"> 1か月</label>
+        <label><input type="radio" name="overtime12" value="3"> 2か月</label>
+        <label><input type="radio" name="overtime12" value="4"> 3か月</label>
+        <label><input type="radio" name="overtime12" value="5"> 4～5か月</label>
+        <label><input type="radio" name="overtime12" value="6"> 6～8か月</label>
+        <label><input type="radio" name="overtime12" value="7"> 9か月以上</label>
+      </div>
+      <p class="field-error" id="e-overtime12">※ 選択してください</p>
+    </div>
 
-    <!-- セクション5: 食生活 -->
-    <div class="section">
-      <div class="section-title"><div class="icon">🥗</div>食生活（食品摂取頻度）</div>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">最近1か月、次の食品や料理をどのくらいの頻度で食べましたか。回答はひとつだけ選んでください。</p>
+    <div class="field" id="f-job">
+      <span class="q-label">職業（複数該当する場合、より多くの時間を費やしている仕事）<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="job" value="1"> 専門・技術</label>
+        <label><input type="radio" name="job" value="2"> 管理・監督</label>
+        <label><input type="radio" name="job" value="3"> 研究・開発</label>
+        <label><input type="radio" name="job" value="4"> 事務・企画・工程管理</label>
+        <label><input type="radio" name="job" value="5"> 営業</label>
+        <label><input type="radio" name="job" value="6"> 整備(メンテナンス)</label>
+        <label><input type="radio" name="job" value="7"> 製造ライン(工場等で生産に関わる仕事)</label>
+        <label><input type="radio" name="job" value="8"> その他</label>
+      </div>
+      <p class="field-error" id="e-job">※ 選択してください</p>
+    </div>
 
+    <div class="field" id="f-rank">
+      <span class="q-label">職位<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="rank" value="1"> 上級管理職（工場長・課長など）</label>
+        <label><input type="radio" name="rank" value="2"> 中間管理職（E職・職長・作業長・班長・リーダーなど）</label>
+        <label><input type="radio" name="rank" value="3"> その他</label>
+      </div>
+      <p class="field-error" id="e-rank">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-employ">
+      <span class="q-label">雇用形態<span class="req">*必須</span></span>
+      <span class="q-note">注) 正社員→雇用期間に定めがない。契約社員→雇用期間を定めている。</span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="employ" value="1"> 正社員</label>
+        <label><input type="radio" name="employ" value="2"> 契約社員(期間従業員を含む)</label>
+        <label><input type="radio" name="employ" value="3"> パート・アルバイト</label>
+        <label><input type="radio" name="employ" value="4"> 定年後再雇用</label>
+        <label><input type="radio" name="employ" value="5"> 派遣</label>
+        <label><input type="radio" name="employ" value="6"> 他社から出向</label>
+      </div>
+      <p class="field-error" id="e-employ">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-spechealth">
+      <span class="q-label">過去3年間に受けた特殊健康診断（あてはまるものすべてに✓）<span class="req">*必須</span></span>
+      <div class="check-wrap">
+        <label><input type="checkbox" name="spechealth" value="1"> 受けなかった</label>
+        <label><input type="checkbox" name="spechealth" value="2"> 騒音</label>
+        <label><input type="checkbox" name="spechealth" value="3"> 有機溶剤</label>
+        <label><input type="checkbox" name="spechealth" value="4"> 鉛</label>
+        <label><input type="checkbox" name="spechealth" value="5"> 粉じん・石綿（アスベスト）</label>
+        <label><input type="checkbox" name="spechealth" value="6"> 特定化学物質</label>
+        <label><input type="checkbox" name="spechealth" value="7"> その他</label>
+      </div>
+      <p class="field-error" id="e-spechealth">※ 選択してください</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 2. 通勤 ===== -->
+<div class="section">
+  <div class="section-header">２．通勤</div>
+  <div class="section-body">
+
+    <div class="field" id="f-commute">
+      <span class="q-label">通勤は片道、どのくらいかかりますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="commute" value="1"> 30分未満</label>
+        <label><input type="radio" name="commute" value="2"> 30～44分</label>
+        <label><input type="radio" name="commute" value="3"> 45～59分</label>
+        <label><input type="radio" name="commute" value="4"> 60～89分</label>
+        <label><input type="radio" name="commute" value="5"> 90～119分</label>
+        <label><input type="radio" name="commute" value="6"> 2時間以上</label>
+      </div>
+      <p class="field-error" id="e-commute">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-commute-walk">
+      <span class="q-label">通勤時に往復で、歩いたり自転車に乗ったりする時間はどのくらいありますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="commute_walk" value="1"> 10分未満</label>
+        <label><input type="radio" name="commute_walk" value="2"> 10～19分</label>
+        <label><input type="radio" name="commute_walk" value="3"> 20～39分</label>
+        <label><input type="radio" name="commute_walk" value="4"> 40～59分</label>
+        <label><input type="radio" name="commute_walk" value="5"> 60～89分</label>
+        <label><input type="radio" name="commute_walk" value="6"> 90分以上</label>
+      </div>
+      <p class="field-error" id="e-commute-walk">※ 選択してください</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 3. 仕事の状況 ===== -->
+<div class="section">
+  <div class="section-header">３．仕事の状況</div>
+  <div class="section-body">
+    <p class="q-note" style="margin-bottom:12px;">それぞれの項目について、あてはまるものを選んでください。</p>
+    <div class="field" id="f-job-status">
+      <div style="overflow-x:auto;">
+      <table class="likert-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;min-width:240px;">項目</th>
+            <th>そうだ</th><th>まあそうだ</th><th>ややちがう</th><th>ちがう</th>
+          </tr>
+        </thead>
+        <tbody id="job-status-tbody"></tbody>
+      </table>
+      </div>
+      <p class="field-error" id="e-job-status">※ すべての項目に回答してください</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 4. 仕事と家庭のバランス ===== -->
+<div class="section">
+  <div class="section-header">４．仕事と家庭のバランス</div>
+  <div class="section-body">
+
+    <div class="field" id="f-household">
+      <span class="q-label">同居者は何人いますか。（自分以外の人数）<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="household" value="1"> いない(一人暮らし)</label>
+        <label><input type="radio" name="household" value="2"> 1人</label>
+        <label><input type="radio" name="household" value="3"> 2人</label>
+        <label><input type="radio" name="household" value="4"> 3人</label>
+        <label><input type="radio" name="household" value="5"> 4人</label>
+        <label><input type="radio" name="household" value="6"> 5人以上</label>
+      </div>
+      <p class="field-error" id="e-household">※ 選択してください</p>
+    </div>
+
+    <div class="field conditional" id="f-hh-member">
+      <span class="q-label">同居者がいる方にお伺いします。以下にあてはまる方はいらっしゃいますか。（あてはまる方すべてに✓）<span class="req">*必須</span></span>
+      <div class="check-wrap">
+        <label><input type="checkbox" name="hh_member" value="1"> 小学校入学前の子供</label>
+        <label><input type="checkbox" name="hh_member" value="2"> 小学1・2年生</label>
+        <label><input type="checkbox" name="hh_member" value="3"> 小学3～6年生</label>
+        <label><input type="checkbox" name="hh_member" value="4"> 介助・介護が必要な方</label>
+        <label><input type="checkbox" name="hh_member" value="5"> 上記にあてはまる同居者はいない</label>
+      </div>
+      <p class="field-error" id="e-hh-member">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-wfc">
+      <span class="q-label">家庭の事情により、仕事に以下のような障害が出てくることがありますか。<span class="req">*必須</span></span>
+      <div style="overflow-x:auto;">
+      <table class="likert-table">
+        <thead>
+          <tr><th class="q-cell">項目</th><th>全くない</th><th>ある程度ある</th><th>よくある</th></tr>
+        </thead>
+        <tbody id="wfc-tbody"></tbody>
+      </table>
+      </div>
+      <p class="field-error" id="e-wfc">※ すべての項目に回答してください</p>
+    </div>
+
+    <div class="field conditional" id="f-wfc-reason">
+      <span class="q-label">上記の質問に「ある程度ある」あるいは「よくある」とお答えいただいた方に伺います。障害となるのは家庭のどのような事情によるものですか。（あてはまるものすべてに✓）<span class="req">*必須</span></span>
+      <div class="check-wrap">
+        <label><input type="checkbox" name="wfc_reason" value="1"> 家事</label>
+        <label><input type="checkbox" name="wfc_reason" value="2"> 育児</label>
+        <label><input type="checkbox" name="wfc_reason" value="3"> 介助・介護</label>
+        <label><input type="checkbox" name="wfc_reason" value="4"> その他</label>
+      </div>
+      <p class="field-error" id="e-wfc-reason">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-fwc">
+      <span class="q-label">仕事上の責任のために、以下のような点で家庭生活が妨げられることがありますか。<span class="req">*必須</span></span>
+      <div style="overflow-x:auto;">
+      <table class="likert-table">
+        <thead>
+          <tr><th class="q-cell">項目</th><th>全くない</th><th>ある程度ある</th><th>よくある</th></tr>
+        </thead>
+        <tbody id="fwc-tbody"></tbody>
+      </table>
+      </div>
+      <p class="field-error" id="e-fwc">※ すべての項目に回答してください</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 5. 社会や地域での活動 ===== -->
+<div class="section">
+  <div class="section-header">５．社会や地域での活動</div>
+  <div class="section-body">
+    <p class="q-note" style="margin-bottom:12px;">仕事以外で、以下のような社会や地域でのグループ活動に参加していますか。</p>
+    <div class="field" id="f-community">
+      <div style="overflow-x:auto;">
+      <table class="likert-table">
+        <thead>
+          <tr><th class="q-cell">活動</th><th>まったくない</th><th>年に数回</th><th>月1～3回</th><th>週1回</th><th>週2回以上</th></tr>
+        </thead>
+        <tbody id="community-tbody"></tbody>
+      </table>
+      </div>
+      <p class="field-error" id="e-community">※ すべての項目に回答してください</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 6. 趣味や学習 ===== -->
+<div class="section">
+  <div class="section-header">６．趣味や学習</div>
+  <div class="section-body">
+
+    <div class="field" id="f-hobby-yn">
+      <span class="q-label">趣味や、学習していることはありますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="hobby_yn" value="1"> いいえ</label>
+        <label><input type="radio" name="hobby_yn" value="2"> はい</label>
+      </div>
+      <p class="field-error" id="e-hobby-yn">※ 選択してください</p>
+    </div>
+
+    <div class="field conditional" id="f-hobby">
+      <span class="q-label">あてはまるものを最大３つまでお選びください。<span class="req">*必須</span></span>
+      <div class="check-wrap" id="hobby-checks"></div>
+      <p class="field-error" id="e-hobby">※ 選択してください（最大3つ）</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 7. たばこ ===== -->
+<div class="section">
+  <div class="section-header">７．たばこ</div>
+  <div class="section-body">
+
+    <div class="field" id="f-cig">
+      <span class="q-label">紙巻きたばこ<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="cig" value="1"> 習慣的に吸ったことはない</label>
+        <label><input type="radio" name="cig" value="2"> やめた（5年以上前）</label>
+        <label><input type="radio" name="cig" value="3"> やめた（1年以上5年未満）</label>
+        <label><input type="radio" name="cig" value="4"> やめた（1年未満）</label>
+        <label><input type="radio" name="cig" value="5"> 時々吸う日がある</label>
+        <label><input type="radio" name="cig" value="6"> 毎日1～5本</label>
+        <label><input type="radio" name="cig" value="7"> 毎日6～10本</label>
+        <label><input type="radio" name="cig" value="8"> 毎日11～20本</label>
+        <label><input type="radio" name="cig" value="9"> 毎日21本以上</label>
+      </div>
+      <p class="field-error" id="e-cig">※ 選択してください</p>
+    </div>
+
+    <div class="field conditional" id="f-cig-years">
+      <span class="q-label">紙巻きたばこを習慣的に吸うようになってから何年間吸っていますか。<span class="req">*必須</span></span>
+      <div class="input-row"><input type="number" name="cig_years" min="0" max="60" style="width:80px;" placeholder="年数"><span>年間</span></div>
+      <p class="field-error" id="e-cig-years">※ 入力してください</p>
+    </div>
+
+    <div class="field" id="f-heat">
+      <span class="q-label">加熱式たばこ（IQOS, Ploom, gloなど）<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="heat" value="1"> 習慣的に吸ったことはない</label>
+        <label><input type="radio" name="heat" value="2"> やめた（1年以上前）</label>
+        <label><input type="radio" name="heat" value="3"> やめた（1年未満）</label>
+        <label><input type="radio" name="heat" value="4"> 時々吸う日がある</label>
+        <label><input type="radio" name="heat" value="5"> 毎日1～5本</label>
+        <label><input type="radio" name="heat" value="6"> 毎日6～10本</label>
+        <label><input type="radio" name="heat" value="7"> 毎日11本以上</label>
+        <label><input type="radio" name="heat" value="8"> 毎日21本以上</label>
+      </div>
+      <p class="field-error" id="e-heat">※ 選択してください</p>
+    </div>
+
+    <div class="field conditional" id="f-heat-sub">
+      <span class="q-label">使用している製品の種類を教えてください。（あてはまるものすべてに✓）<span class="req">*必須</span></span>
+      <div class="check-wrap">
+        <label><input type="checkbox" name="heat_brand" value="1"> IQOS系</label>
+        <label><input type="checkbox" name="heat_brand" value="2"> Ploom系</label>
+        <label><input type="checkbox" name="heat_brand" value="3"> glo系</label>
+        <label><input type="checkbox" name="heat_brand" value="4"> その他</label>
+      </div>
+      <p class="field-error" id="e-heat-sub">※ 選択してください</p>
+    </div>
+
+    <div class="field conditional" id="f-heat-years">
+      <span class="q-label">加熱式たばこを習慣的に吸うようになってから何年間吸っていますか。<span class="req">*必須</span></span>
+      <div class="input-row"><input type="number" name="heat_years" min="0" max="30" style="width:80px;" placeholder="年数"><span>年間</span></div>
+      <p class="field-error" id="e-heat-years">※ 入力してください</p>
+    </div>
+
+    <div class="field" id="f-other-tobacco">
+      <span class="q-label">最近１か月、紙巻きや加熱式以外のたばこ製品を使いましたか。（あてはまるものすべてに✓）<span class="req">*必須</span></span>
+      <div class="check-wrap">
+        <label><input type="checkbox" name="other_tobacco" value="1"> 使わなかった</label>
+        <label><input type="checkbox" name="other_tobacco" value="2"> 電子たばこ</label>
+        <label><input type="checkbox" name="other_tobacco" value="3"> 噛みたばこ</label>
+        <label><input type="checkbox" name="other_tobacco" value="4"> パイプ・葉巻</label>
+        <label><input type="checkbox" name="other_tobacco" value="5"> 水たばこ（シーシャ）</label>
+        <label><input type="checkbox" name="other_tobacco" value="6"> その他</label>
+      </div>
+      <p class="field-error" id="e-other-tobacco">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-first-smoke">
+      <span class="q-label">朝、目が覚めてからどのくらいの時間で最初のたばこを吸いますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="first_smoke" value="1"> 現在、吸っていない</label>
+        <label><input type="radio" name="first_smoke" value="2"> 5分以内</label>
+        <label><input type="radio" name="first_smoke" value="3"> 6～30分</label>
+        <label><input type="radio" name="first_smoke" value="4"> 31～60分</label>
+        <label><input type="radio" name="first_smoke" value="5"> 61分以上</label>
+      </div>
+      <p class="field-error" id="e-first-smoke">※ 選択してください</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 8. 受動喫煙 ===== -->
+<div class="section">
+  <div class="section-header">８．受動喫煙</div>
+  <div class="section-body">
+    <p class="q-note" style="margin-bottom:12px;">他人のたばこの煙を家庭や職場、お店等で吸う機会はどのくらいありますか？</p>
+    <div class="field" id="f-passive">
+      <div style="overflow-x:auto;">
+      <table class="likert-table">
+        <thead>
+          <tr><th class="q-cell">種類</th><th>ほとんどない</th><th>月1回程度</th><th>週1回程度</th><th>週数回程度</th><th>ほぼ毎日</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="q-cell">紙巻きたばこ</td>
+            <td><input type="radio" name="passive_cig" value="1"></td>
+            <td><input type="radio" name="passive_cig" value="2"></td>
+            <td><input type="radio" name="passive_cig" value="3"></td>
+            <td><input type="radio" name="passive_cig" value="4"></td>
+            <td><input type="radio" name="passive_cig" value="5"></td>
+          </tr>
+          <tr>
+            <td class="q-cell">加熱式たばこ</td>
+            <td><input type="radio" name="passive_heat" value="1"></td>
+            <td><input type="radio" name="passive_heat" value="2"></td>
+            <td><input type="radio" name="passive_heat" value="3"></td>
+            <td><input type="radio" name="passive_heat" value="4"></td>
+            <td><input type="radio" name="passive_heat" value="5"></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="field-error" id="e-passive">※ すべての項目に回答してください</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 9. お酒 ===== -->
+<div class="section">
+  <div class="section-header">９．お酒（アルコール飲料）とノンアルコール飲料</div>
+  <div class="section-body">
+
+    <div class="field" id="f-alc-const">
+      <span class="q-label">もともと、お酒（アルコール飲料）をまったく飲めない体質ですか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="alc_const" value="1"> はい、もともと飲めない体質です</label>
+        <label><input type="radio" name="alc_const" value="2"> いいえ</label>
+      </div>
+      <p class="field-error" id="e-alc-const">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-alc-flush">
+      <span class="q-label">ビールコップ１杯程度の少量の飲酒で、すぐに顔が赤くなる体質ですか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="alc_flush" value="1"> はい</label>
+        <label><input type="radio" name="alc_flush" value="2"> いいえ</label>
+        <label><input type="radio" name="alc_flush" value="3"> わからない</label>
+      </div>
+      <p class="field-error" id="e-alc-flush">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-alc-freq">
+      <span class="q-label">お酒（アルコール飲料）をどのくらいの頻度で飲みますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="alc_freq" value="1"> 飲まない</label>
+        <label><input type="radio" name="alc_freq" value="2"> やめた</label>
+        <label><input type="radio" name="alc_freq" value="3"> 月1～3日</label>
+        <label><input type="radio" name="alc_freq" value="4"> 週1～2日</label>
+        <label><input type="radio" name="alc_freq" value="5"> 週3～4日</label>
+        <label><input type="radio" name="alc_freq" value="6"> 週5～6日</label>
+        <label><input type="radio" name="alc_freq" value="7"> 毎日</label>
+      </div>
+      <p class="field-error" id="e-alc-freq">※ 選択してください</p>
+    </div>
+
+    <div class="field conditional" id="f-alc-amount">
+      <span class="q-label">月１回以上飲む方に伺います。日本酒換算で１日にどれだけ飲みますか。<span class="req">*必須</span></span>
+      <span class="q-note">日本酒1合は次の量に相当: ビール・発泡酒 中缶１本（500ml）、焼酎25度0.6合（110ml）、ワイン２杯（240ml）、ウイスキーダブル１杯（60ml）、缶チューハイ７度１缶（350ml）/５度ロング缶（500ml）</span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="alc_amount" value="1"> 0.5合</label>
+        <label><input type="radio" name="alc_amount" value="2"> 1合</label>
+        <label><input type="radio" name="alc_amount" value="3"> 1.5合</label>
+        <label><input type="radio" name="alc_amount" value="4"> 2合</label>
+        <label><input type="radio" name="alc_amount" value="5"> 2.5合</label>
+        <label><input type="radio" name="alc_amount" value="6"> 3合</label>
+        <label><input type="radio" name="alc_amount" value="7"> 3.5合</label>
+        <label><input type="radio" name="alc_amount" value="8"> 4合以上</label>
+      </div>
+      <p class="field-error" id="e-alc-amount">※ 選択してください</p>
+    </div>
+
+    <div class="field conditional" id="f-alc-degree">
+      <span class="q-label">最もよく飲むアルコール飲料の度数はどのくらいですか。<span class="req">*必須</span></span>
+      <span class="q-note">お酒を割って飲む場合: 例）アルコール度数25％の焼酎を、焼酎：水＝5：5で割った場合は 25×0.5＝12.5％</span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="alc_degree" value="1"> 1％未満（微アルコール飲料）</label>
+        <label><input type="radio" name="alc_degree" value="2"> 1～4％台（ほろよい・低アルビール等）</label>
+        <label><input type="radio" name="alc_degree" value="3"> 5～8％台（ビール・ハイボール等）</label>
+        <label><input type="radio" name="alc_degree" value="4"> 9～12％台（ストロング等）</label>
+        <label><input type="radio" name="alc_degree" value="5"> 13～19％台（ワイン・梅酒・日本酒等）</label>
+        <label><input type="radio" name="alc_degree" value="6"> 20％以上（焼酎ロック・ジン・ウイスキー等）</label>
+      </div>
+      <p class="field-error" id="e-alc-degree">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-non-alc">
+      <span class="q-label">アルコール0.00％のノンアルコール飲料（ソフトドリンクを除く）をどのくらいの頻度で飲みますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="non_alc" value="1"> 飲まない</label>
+        <label><input type="radio" name="non_alc" value="2"> 月1～3日</label>
+        <label><input type="radio" name="non_alc" value="3"> 週1～2日</label>
+        <label><input type="radio" name="non_alc" value="4"> 週3～4日</label>
+        <label><input type="radio" name="non_alc" value="5"> 週5～6日</label>
+        <label><input type="radio" name="non_alc" value="6"> 毎日</label>
+      </div>
+      <p class="field-error" id="e-non-alc">※ 選択してください</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 10. 食生活 ===== -->
+<div class="section">
+  <div class="section-header">１０．食生活</div>
+  <div class="section-body">
+
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">最近１か月、次の食品や料理をどのくらいの頻度で食べましたか。回答はひとつだけ選んでください。</p>
+    <div class="scroll-hint">← 横にスクロールできます</div>
+    <div class="field" id="f-food">
       <div style="overflow-x:auto;">
       <table class="freq-table">
         <thead>
           <tr>
-            <th class="ft-food" rowspan="2">食品・料理</th>
-            <th class="ft-freq" rowspan="2">ほとんど<br>食べない</th>
-            <th class="ft-freq" rowspan="2">月<br>1〜3回</th>
-            <th class="ft-group" colspan="3">週</th>
-            <th class="ft-group" colspan="3">毎日</th>
+            <th rowspan="2" style="text-align:left;min-width:200px;">食品・料理</th>
+            <th rowspan="2">ほとんど<br>食べない</th>
+            <th rowspan="2">月<br>1～3回</th>
+            <th colspan="3">週</th>
+            <th colspan="3">毎日</th>
           </tr>
           <tr>
-            <th class="ft-freq">1〜2回</th>
-            <th class="ft-freq">3〜4回</th>
-            <th class="ft-freq">5〜6回</th>
-            <th class="ft-freq">1回</th>
-            <th class="ft-freq">2回</th>
-            <th class="ft-freq">3回<br>以上</th>
+            <th>1～2回</th><th>3～4回</th><th>5～6回</th>
+            <th>1回</th><th>2回</th><th>3回<br>以上</th>
           </tr>
         </thead>
-        <tbody id="freq-tbody">
-        </tbody>
+        <tbody id="food-tbody"></tbody>
       </table>
       </div>
-      <p id="food-error" class="field-error" style="display:none;margin-top:8px;">※ すべての食品に回答してください</p>
+      <p class="field-error" id="e-food">※ すべての食品に回答してください</p>
     </div>
 
-    <div class="submit-area">
-      <div class="consent-box">
-        ✅ 本質問票への回答は自由意志によるものであり、回答の拒否や中断によって不利益を受けることはありません。収集したデータは統計処理を行い、個人が特定されない形で研究に使用します。
-      </div>
-      <button type="submit">回答を送信する</button>
-    </div>
-  </form>
-
-  <div class="success" id="success">
-    <div class="checkmark">✓</div>
-    <h2>回答ありがとうございました</h2>
-    <p>ご協力いただき、誠にありがとうございます。<br>回答内容は適切に管理し、研究目的のみに使用いたします。</p>
-    <button onclick="showAdmin()" style="margin-top:24px;background:var(--accent);color:#fff;border:none;padding:10px 28px;border-radius:50px;font-size:13px;cursor:pointer;font-family:inherit;">管理画面を開く</button>
-  </div>
-
-  <!-- 管理画面 -->
-  <div id="admin" style="display:none;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
-      <div>
-        <h2 style="font-size:18px;color:var(--primary);font-family:'DM Serif Display',serif;">回答データ管理</h2>
-        <p id="record-count" style="font-size:13px;color:var(--muted);margin-top:4px;">0件の回答</p>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button onclick="downloadCSV()" style="background:var(--primary);color:#fff;border:none;padding:10px 22px;border-radius:50px;font-size:13px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;">⬇ CSVダウンロード</button>
-        <button onclick="clearData()" style="background:#fff;color:var(--error);border:1.5px solid var(--error);padding:10px 22px;border-radius:50px;font-size:13px;cursor:pointer;font-family:inherit;">🗑 データ削除</button>
-      </div>
-    </div>
-    <div style="overflow-x:auto;border-radius:10px;border:1px solid var(--border);">
-      <table id="data-table" style="width:100%;border-collapse:collapse;font-size:12px;background:#fff;">
-        <thead id="table-head" style="background:var(--primary);color:#fff;"></thead>
-        <tbody id="table-body"></tbody>
+    <p style="font-size:12px;color:var(--muted);margin:20px 0 8px;">最近１か月、次の飲み物をどのくらいの頻度で飲みましたか。（180mlを１杯として換算。500mlペットボトルは約３杯）</p>
+    <div class="field" id="f-drink">
+      <div style="overflow-x:auto;">
+      <table class="freq-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="text-align:left;min-width:200px;">飲み物</th>
+            <th rowspan="2">ほとんど<br>飲まない</th>
+            <th colspan="2">週</th>
+            <th colspan="6">毎日</th>
+          </tr>
+          <tr>
+            <th>1～3杯</th><th>4～6杯</th>
+            <th>1杯</th><th>2杯</th><th>3杯</th><th>4杯</th><th>5杯以上</th>
+          </tr>
+        </thead>
+        <tbody id="drink-tbody"></tbody>
       </table>
+      </div>
+      <p class="field-error" id="e-drink">※ すべての飲み物に回答してください</p>
     </div>
-    <p style="font-size:11px;color:var(--muted);margin-top:10px;">※ データはブラウザのローカルストレージに保存されています。ブラウザのデータを削除すると消えます。</p>
+
+    <div class="field" id="f-balanced-meal">
+      <span class="q-label">主食・主菜・副菜を３つそろえて食べることが１日に２回以上あるのは、週に何日ありますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="balanced_meal" value="1"> ほとんどない</label>
+        <label><input type="radio" name="balanced_meal" value="2"> 週2～3日</label>
+        <label><input type="radio" name="balanced_meal" value="3"> 週4～5日</label>
+        <label><input type="radio" name="balanced_meal" value="4"> ほぼ毎日</label>
+      </div>
+      <p class="field-error" id="e-balanced-meal">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-eat-together">
+      <span class="q-label">１日１回以上、誰かと一緒に食事をすることは、週に何日ありますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="eat_together" value="1"> ない・週1日未満</label>
+        <label><input type="radio" name="eat_together" value="2"> 週1～2日</label>
+        <label><input type="radio" name="eat_together" value="3"> 週3～4日</label>
+        <label><input type="radio" name="eat_together" value="4"> 週5～6日</label>
+        <label><input type="radio" name="eat_together" value="5"> 毎日</label>
+      </div>
+      <p class="field-error" id="e-eat-together">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-breakfast">
+      <span class="q-label">朝食はどのくらいの頻度で食べますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="breakfast" value="1"> 食べない・週1日未満</label>
+        <label><input type="radio" name="breakfast" value="2"> 週1～2日</label>
+        <label><input type="radio" name="breakfast" value="3"> 週3～4日</label>
+        <label><input type="radio" name="breakfast" value="4"> 週5～6日</label>
+        <label><input type="radio" name="breakfast" value="5"> 毎朝</label>
+      </div>
+      <p class="field-error" id="e-breakfast">※ 選択してください</p>
+    </div>
+
   </div>
 </div>
 
+<!-- ===== 11. 仕事中の身体活動 ===== -->
+<div class="section">
+  <div class="section-header">１１．仕事中の身体活動</div>
+  <div class="section-body">
+    <p class="q-note" style="margin-bottom:12px;">仕事で、次のことをしている時間はどのくらいありますか。</p>
+    <div class="field" id="f-work-act">
+      <div style="overflow-x:auto;">
+      <table class="likert-table">
+        <thead>
+          <tr><th class="q-cell">活動</th><th>ほとんどない</th><th>30分未満</th><th>30～59分</th><th>1時間以上2時間未満</th><th>2時間以上4時間未満</th><th>4時間以上6時間未満</th><th>6時間以上</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="q-cell">力作業の時間（10kg以上の重い物の持ちあげや運搬、それと同程度の作業）</td>
+            <td><input type="radio" name="work_heavy" value="1"></td>
+            <td><input type="radio" name="work_heavy" value="2"></td>
+            <td><input type="radio" name="work_heavy" value="3"></td>
+            <td><input type="radio" name="work_heavy" value="4"></td>
+            <td><input type="radio" name="work_heavy" value="5"></td>
+            <td><input type="radio" name="work_heavy" value="6"></td>
+            <td><input type="radio" name="work_heavy" value="7"></td>
+          </tr>
+          <tr>
+            <td class="q-cell">立っている・歩いている時間</td>
+            <td><input type="radio" name="work_stand" value="1"></td>
+            <td><input type="radio" name="work_stand" value="2"></td>
+            <td><input type="radio" name="work_stand" value="3"></td>
+            <td><input type="radio" name="work_stand" value="4"></td>
+            <td><input type="radio" name="work_stand" value="5"></td>
+            <td><input type="radio" name="work_stand" value="6"></td>
+            <td><input type="radio" name="work_stand" value="7"></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="field-error" id="e-work-act">※ すべての項目に回答してください</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 12. 余暇中の身体活動 ===== -->
+<div class="section">
+  <div class="section-header">１２．余暇中の身体活動</div>
+  <div class="section-body">
+    <p class="q-note" style="margin-bottom:12px;">休日や時間があるときの運動・身体活動を、運動強度別に頻度と時間をお答えください。（昼休みにする運動も含む）</p>
+    <div class="field" id="f-leisure-act">
+      <div style="overflow-x:auto;">
+      <table class="act-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="text-align:left;min-width:220px;">運動の種類</th>
+            <th colspan="6">頻度</th>
+            <th></th>
+            <th colspan="6">１回あたりの時間</th>
+          </tr>
+          <tr>
+            <th>なし</th><th>月1～3回</th><th>週1～2回</th><th>週3～4回</th><th>週5～6回</th><th>ほぼ毎日</th>
+            <th></th>
+            <th>30分未満</th><th>30～59分</th><th>1～2時間未満</th><th>2～3時間未満</th><th>3～4時間未満</th><th>4時間以上</th>
+          </tr>
+        </thead>
+        <tbody id="leisure-tbody"></tbody>
+      </table>
+      </div>
+      <p class="field-error" id="e-leisure-act">※ すべての項目の頻度に回答してください</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 13. 緑や自然の中で過ごすこと ===== -->
+<div class="section">
+  <div class="section-header">１３．緑や自然の中で過ごすこと</div>
+  <div class="section-body">
+    <p class="q-note" style="margin-bottom:12px;">最近１年、以下の場所にどのくらいの頻度で行きましたか。</p>
+    <div class="field" id="f-nature">
+      <div style="overflow-x:auto;">
+      <table class="likert-table">
+        <thead>
+          <tr><th class="q-cell">場所</th><th>行かなかった</th><th>年1～3回</th><th>年4～11回</th><th>月1回</th><th>月2～3回</th><th>週1回以上</th></tr>
+        </thead>
+        <tbody id="nature-tbody"></tbody>
+      </table>
+      </div>
+      <p class="field-error" id="e-nature">※ すべての項目に回答してください</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 14. 睡眠 ===== -->
+<div class="section">
+  <div class="section-header">１４．睡眠</div>
+  <div class="section-body">
+
+    <div class="field" id="f-sleep-hours">
+      <span class="q-label">最近１か月の、平均的な睡眠時間はどのくらいですか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="sleep_hours" value="1"> 5時間未満</label>
+        <label><input type="radio" name="sleep_hours" value="2"> 5時間台</label>
+        <label><input type="radio" name="sleep_hours" value="3"> 6時間台</label>
+        <label><input type="radio" name="sleep_hours" value="4"> 7時間台</label>
+        <label><input type="radio" name="sleep_hours" value="5"> 8時間台</label>
+        <label><input type="radio" name="sleep_hours" value="6"> 9時間以上</label>
+      </div>
+      <p class="field-error" id="e-sleep-hours">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-sleep-quality">
+      <span class="q-label">最近１か月の、全体的な睡眠の質はいかがでしたか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="sleep_quality" value="1"> 非常に良い</label>
+        <label><input type="radio" name="sleep_quality" value="2"> 割と良い</label>
+        <label><input type="radio" name="sleep_quality" value="3"> 割と悪い</label>
+        <label><input type="radio" name="sleep_quality" value="4"> 非常に悪い</label>
+      </div>
+      <p class="field-error" id="e-sleep-quality">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-sleep-latency">
+      <span class="q-label">最近１か月、床についてから眠りにつくまでに、どのくらいかかりましたか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="sleep_latency" value="1"> 15分以内</label>
+        <label><input type="radio" name="sleep_latency" value="2"> 16～30分</label>
+        <label><input type="radio" name="sleep_latency" value="3"> 31～60分</label>
+        <label><input type="radio" name="sleep_latency" value="4"> 60分以上</label>
+      </div>
+      <p class="field-error" id="e-sleep-latency">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-sleep-trouble">
+      <span class="q-label">最近１か月、不眠（眠れない）で困ることはありましたか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="sleep_trouble" value="1"> なかった</label>
+        <label><input type="radio" name="sleep_trouble" value="2"> 週1回未満</label>
+        <label><input type="radio" name="sleep_trouble" value="3"> 週1～2回</label>
+        <label><input type="radio" name="sleep_trouble" value="4"> 週3回以上</label>
+      </div>
+      <p class="field-error" id="e-sleep-trouble">※ 選択してください</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 15. 健康状態 ===== -->
+<div class="section">
+  <div class="section-header">１５．健康状態</div>
+  <div class="section-body">
+
+    <div class="field" id="f-health-self">
+      <span class="q-label">同年代の人に比べて、あなたの健康状態はいかがですか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="health_self" value="1"> とても健康</label>
+        <label><input type="radio" name="health_self" value="2"> まあ健康</label>
+        <label><input type="radio" name="health_self" value="3"> あまり健康ではない</label>
+        <label><input type="radio" name="health_self" value="4"> 健康ではない</label>
+      </div>
+      <p class="field-error" id="e-health-self">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-sick-days">
+      <span class="q-label">最近１か月、ご自身の健康上の理由で（通院も含め）、仕事を半日以上休んだことが何日ありますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="sick_days" value="1"> なかった</label>
+        <label><input type="radio" name="sick_days" value="2"> 1日</label>
+        <label><input type="radio" name="sick_days" value="3"> 2～3日</label>
+        <label><input type="radio" name="sick_days" value="4"> 4～6日</label>
+        <label><input type="radio" name="sick_days" value="5"> 7～9日</label>
+        <label><input type="radio" name="sick_days" value="6"> 10日以上</label>
+      </div>
+      <p class="field-error" id="e-sick-days">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-performance">
+      <span class="q-label">あなたが健康な時に仕事を行う能力（パフォーマンス）を100とすると、最近１か月を平均して、どのくらいの水準で仕事を行いましたか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="performance" value="10"> 100</label>
+        <label><input type="radio" name="performance" value="9"> 90</label>
+        <label><input type="radio" name="performance" value="8"> 80</label>
+        <label><input type="radio" name="performance" value="7"> 70</label>
+        <label><input type="radio" name="performance" value="6"> 60</label>
+        <label><input type="radio" name="performance" value="5"> 50</label>
+        <label><input type="radio" name="performance" value="4"> 40</label>
+        <label><input type="radio" name="performance" value="3"> 30</label>
+        <label><input type="radio" name="performance" value="2"> 20</label>
+        <label><input type="radio" name="performance" value="1"> 10</label>
+      </div>
+      <p class="field-error" id="e-performance">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-chronic">
+      <span class="q-label">現在、慢性的な病気や健康問題がありますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="chronic" value="1"> ない</label>
+        <label><input type="radio" name="chronic" value="2"> ある</label>
+      </div>
+      <p class="field-error" id="e-chronic">※ 選択してください</p>
+    </div>
+
+    <div class="field conditional" id="f-chronic-impact">
+      <span class="q-label">慢性的な病気や健康問題により、日常生活にどの程度支障がありますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="chronic_impact" value="1"> 支障はない</label>
+        <label><input type="radio" name="chronic_impact" value="2"> ある程度支障がある</label>
+        <label><input type="radio" name="chronic_impact" value="3"> 非常に支障がある</label>
+      </div>
+      <p class="field-error" id="e-chronic-impact">※ 選択してください</p>
+    </div>
+
+    <div class="field conditional" id="f-chronic-type">
+      <span class="q-label">その病気や健康問題は何ですか。最も支障が大きいものを1つ選んでください。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="chronic_type" value="1"> アレルギー疾患</label>
+        <label><input type="radio" name="chronic_type" value="2"> 頭痛</label>
+        <label><input type="radio" name="chronic_type" value="3"> 首・肩のこりや痛み</label>
+        <label><input type="radio" name="chronic_type" value="4"> 腰痛</label>
+        <label><input type="radio" name="chronic_type" value="5"> 関節・筋肉・神経の痛みや障害</label>
+        <label><input type="radio" name="chronic_type" value="6"> 抑うつ・不安・睡眠障害</label>
+        <label><input type="radio" name="chronic_type" value="7"> 疲労感・倦怠感</label>
+        <label><input type="radio" name="chronic_type" value="8"> 胃腸疾患</label>
+        <label><input type="radio" name="chronic_type" value="9"> 呼吸器疾患</label>
+        <label><input type="radio" name="chronic_type" value="10"> 糖尿病</label>
+        <label><input type="radio" name="chronic_type" value="11"> 皮膚疾患</label>
+        <label><input type="radio" name="chronic_type" value="12"> 聴覚障害</label>
+        <label><input type="radio" name="chronic_type" value="13"> 視覚障害</label>
+        <label><input type="radio" name="chronic_type" value="14"> がん</label>
+        <label><input type="radio" name="chronic_type" value="15"> 循環器疾患</label>
+        <label><input type="radio" name="chronic_type" value="16"> 感染症及びその後遺症</label>
+        <label><input type="radio" name="chronic_type" value="17"> 婦人科疾患・更年期障害</label>
+        <label><input type="radio" name="chronic_type" value="18"> その他</label>
+      </div>
+      <p class="field-error" id="e-chronic-type">※ 選択してください</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 16. 最近の気分（K6） ===== -->
+<div class="section">
+  <div class="section-header">１６．最近の気分</div>
+  <div class="section-body">
+    <p class="q-note" style="margin-bottom:12px;">それぞれの項目について、あなたはどのくらいの頻度で感じているかお答えください。</p>
+    <div class="field" id="f-k6">
+      <div style="overflow-x:auto;">
+      <table class="likert-table">
+        <thead>
+          <tr><th class="q-cell">項目</th><th>全くない</th><th>少しだけ</th><th>ときどき</th><th>たいてい</th><th>いつも</th></tr>
+        </thead>
+        <tbody id="k6-tbody"></tbody>
+      </table>
+      </div>
+      <p class="field-error" id="e-k6">※ すべての項目に回答してください</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 17. 新型コロナ ===== -->
+<div class="section">
+  <div class="section-header">１７．新型コロナ</div>
+  <div class="section-body">
+
+    <div class="field" id="f-covid">
+      <span class="q-label">新型コロナウイルス感染症にかかったことがありますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="covid" value="1"> いいえ</label>
+        <label><input type="radio" name="covid" value="2"> はい</label>
+      </div>
+      <p class="field-error" id="e-covid">※ 選択してください</p>
+    </div>
+
+    <div class="field conditional" id="f-covid-when">
+      <span class="q-label">感染した時期をお答えください。（２回以上かかった方は、直近のことをお答えください。）<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="covid_when" value="1"> （今年）2026年4月以降</label>
+        <label><input type="radio" name="covid_when" value="2"> （今年）2026年1～3月</label>
+        <label><input type="radio" name="covid_when" value="3"> （昨年）2025年10～12月</label>
+        <label><input type="radio" name="covid_when" value="4"> （昨年）2025年7～9月</label>
+        <label><input type="radio" name="covid_when" value="5"> （昨年）2025年4～6月</label>
+        <label><input type="radio" name="covid_when" value="6"> （昨年）2025年1～3月</label>
+        <label><input type="radio" name="covid_when" value="7"> （一昨年以前）2024年12月以前</label>
+      </div>
+      <p class="field-error" id="e-covid-when">※ 選択してください</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 18. 属性・社会的要因 ===== -->
+<div class="section">
+  <div class="section-header">１８．属性・社会的要因</div>
+  <div class="section-body">
+
+    <div class="field" id="f-birth">
+      <span class="q-label">生年月<span class="req">*必須</span></span>
+      <div class="input-row">
+        <span>西暦</span>
+        <input type="number" name="birth_year" min="1940" max="2010" style="width:90px;" placeholder="例:1980">
+        <span>年</span>
+        <input type="number" name="birth_month" min="1" max="12" style="width:60px;" placeholder="1-12">
+        <span>月</span>
+      </div>
+      <p class="field-error" id="e-birth">※ 入力してください</p>
+    </div>
+
+    <div class="field" id="f-marital">
+      <span class="q-label">婚姻<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="marital" value="1"> 既婚、内縁</label>
+        <label><input type="radio" name="marital" value="2"> 未婚</label>
+        <label><input type="radio" name="marital" value="3"> その他（離別、死別など）</label>
+      </div>
+      <p class="field-error" id="e-marital">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-edu">
+      <span class="q-label">学校に通った年数<span class="req">*必須</span></span>
+      <span class="q-note">例：6年+3年+3年+4年=16年</span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="edu" value="1"> 9年（義務教育）</label>
+        <label><input type="radio" name="edu" value="2"> 10～12年</label>
+        <label><input type="radio" name="edu" value="3"> 13～14年</label>
+        <label><input type="radio" name="edu" value="4"> 15～16年</label>
+        <label><input type="radio" name="edu" value="5"> 17年以上</label>
+      </div>
+      <p class="field-error" id="e-edu">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-pet">
+      <span class="q-label">ペット（あてはまるものすべてに✓）<span class="req">*必須</span></span>
+      <div class="check-wrap">
+        <label><input type="checkbox" name="pet" value="1"> 飼っていない</label>
+        <label><input type="checkbox" name="pet" value="2"> 猫</label>
+        <label><input type="checkbox" name="pet" value="3"> 犬</label>
+        <label><input type="checkbox" name="pet" value="4"> 魚</label>
+        <label><input type="checkbox" name="pet" value="5"> 鳥</label>
+        <label><input type="checkbox" name="pet" value="6"> その他</label>
+      </div>
+      <p class="field-error" id="e-pet">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-smartphone">
+      <span class="q-label">1日のスマホの平均使用時間<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="smartphone" value="1"> 1時間未満</label>
+        <label><input type="radio" name="smartphone" value="2"> 1時間以上2時間未満</label>
+        <label><input type="radio" name="smartphone" value="3"> 2時間以上3時間未満</label>
+        <label><input type="radio" name="smartphone" value="4"> 3時間以上</label>
+      </div>
+      <p class="field-error" id="e-smartphone">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-sex">
+      <span class="q-label">性別<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="sex" value="1"> 男性</label>
+        <label><input type="radio" name="sex" value="2"> 女性</label>
+      </div>
+      <p class="field-error" id="e-sex">※ 選択してください</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 19. 女性への質問 ===== -->
+<div class="section conditional" id="f-female-section">
+  <div class="section-header">１９．女性への質問</div>
+  <div class="section-body">
+
+    <div class="field" id="f-pregnant">
+      <span class="q-label">妊娠していますか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="pregnant" value="1"> 妊娠していない</label>
+        <label><input type="radio" name="pregnant" value="2"> 妊娠初期（妊娠15週まで）</label>
+        <label><input type="radio" name="pregnant" value="3"> 妊娠中期（妊娠16～27週）</label>
+        <label><input type="radio" name="pregnant" value="4"> 妊娠後期（妊娠28週以降）</label>
+      </div>
+      <p class="field-error" id="e-pregnant">※ 選択してください</p>
+    </div>
+
+    <div class="field" id="f-menopause">
+      <span class="q-label">閉経しましたか。<span class="req">*必須</span></span>
+      <div class="radio-wrap">
+        <label><input type="radio" name="menopause" value="1"> 閉経した</label>
+        <label><input type="radio" name="menopause" value="2"> 閉経していない</label>
+      </div>
+      <p class="field-error" id="e-menopause">※ 選択してください</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="submit-area">
+  <div class="consent-note">
+    ✅ ご回答いただいたデータは統計処理を行い、個人が特定される形での発表は行いません。
+  </div>
+  <button type="submit" class="btn-submit">回答を送信する</button>
+</div>
+
+</form>
+
+<div class="success" id="success">
+  <div class="ck">✓</div>
+  <h2>ご回答ありがとうございました</h2>
+  <p>ご協力いただき、誠にありがとうございます。<br>回答内容は適切に管理し、研究目的のみに使用いたします。</p>
+</div>
+
+</div><!-- /wrapper -->
+
 <script>
-  // ---- データ列定義 ----
-  const COLUMNS = [
-    { key: 'timestamp',       label: '回答日時' },
-    { key: 'age',             label: '年齢' },
-    { key: 'sex',             label: '性別' },
-    { key: 'height',          label: '身長(cm)' },
-    { key: 'weight',          label: '体重(kg)' },
-    { key: 'bmi',             label: 'BMI' },
-    { key: 'shift',           label: '勤務形態' },
-    { key: 'years',           label: '勤続年数' },
-    { key: 'meals',           label: '食事回数/日' },
-    { key: 'breakfast',       label: '朝食頻度' },
-    { key: 'eating_out',      label: '外食頻度' },
-    { key: 'alcohol',         label: '飲酒習慣' },
-    { key: 'alcohol_amount',  label: '飲酒量' },
-    { key: 'smoking',         label: '喫煙習慣' },
-    { key: 'cigarettes',      label: '喫煙本数/日' },
-    { key: 'exercise',        label: '運動習慣' },
-    { key: 'exercise_type',   label: '運動種類' },
-    { key: 'sleep_hours',     label: '睡眠時間' },
-    { key: 'sleep_quality',   label: '睡眠の質' },
-    { key: 'work_activity',   label: '仕事の活動量' },
-    { key: 'stress',          label: 'ストレスレベル' },
-    { key: 'disease',         label: '既往歴' },
-    { key: 'family_history',  label: '家族歴' },
-    { key: 'medication',      label: '服薬' },
-    { key: 'checkup',         label: '健康診断受診' },
-    { key: 'comment',         label: '自由記述' },
-    { key: 'food_gohan_zakkoku', label: 'ごはん（雑穀・玄米等）' },
-    { key: 'food_gohan_white', label: 'ごはん（白米）' },
-    { key: 'food_bread_whole', label: 'パン（全粒粉・ライ麦等）' },
-    { key: 'food_bread_other', label: 'パン（上記以外）' },
-    { key: 'food_cereal', label: 'シリアル' },
-    { key: 'food_noodle', label: 'めん類' },
-    { key: 'food_potato', label: 'いも類・いも入り料理' },
-    { key: 'food_miso', label: 'みそ汁' },
-    { key: 'food_soy', label: '大豆製品' },
-    { key: 'food_veg_raw', label: '生野菜・サラダ' },
-    { key: 'food_veg_cooked', label: '調理した野菜・野菜料理' },
-    { key: 'food_mushroom', label: 'きのこ入り料理や汁物' },
-    { key: 'food_seaweed', label: '海そう入り料理や汁物' },
-    { key: 'food_fruit', label: '果物' },
-    { key: 'food_fish', label: '魚介類' },
-    { key: 'food_beef_pork', label: '牛肉・豚肉・レバー' },
-    { key: 'food_chicken', label: 'とり肉' },
-    { key: 'food_egg', label: '卵・卵料理' },
-    { key: 'food_dairy', label: '牛乳・乳製品' },
-    { key: 'food_nuts', label: 'ナッツ類' },
-    { key: 'food_salty', label: '塩分を多く含む食品' },
-    { key: 'food_fried', label: '揚げ物' },
-  ];
+// ============================================================
+// データ定義
+// ============================================================
+const JOB_STATUS_ITEMS = [
+  '仕事におもしろさや、やりがいを感じる。',
+  '仕事についての知識や技能を持っている。',
+  '仕事の量が多すぎる。',
+  '仕事上、対応の難しいできごとがよくある。',
+  '仕事のやり方や手順を自分で決めることができる。',
+  '仕事で困った時、同僚や上司は助けてくれる。',
+  '私の職場の人たちは信頼できる。',
+  '私の職場の人たちは協力して仕事をしている。',
+];
+const WFC_ITEMS = [
+  '家庭内の問題によって仕事に専念できる時間が減る。',
+  '家庭内の心配または問題によって仕事から気持ちがそれる。',
+  '家事によって、仕事をよく行うために必要な睡眠時間が取れなくなる。',
+  '家庭内での責任によって、リラックスしたり一人になるための時間が減る。',
+];
+const FWC_ITEMS = [
+  '仕事のため、家族と過ごす時間が減る。',
+  '職場での問題のため、家でいらいらする。',
+  '出張で家を空けることが多い。',
+  '仕事で非常にエネルギーを使うため、家庭では注意力が必要なことができないと思う。',
+];
+const COMMUNITY_ITEMS = [
+  '地域の会や同世代の集まり（自治会、町内会、婦人会、消防団、同窓会など）',
+  'スポーツに関するグループ活動（スポーツクラブや友人との散歩など）',
+  '趣味・娯楽・学習に関するグループ活動（市民公開講座を含む）',
+  'ボランティア・NPO・市民活動',
+  'その他のグループ活動',
+];
+const HOBBY_OPTIONS = [
+  '観戦・鑑賞系（スポーツ観戦 / 音楽・ライブ・映画鑑賞 / TV・動画視聴など）',
+  'スポーツ・運動系（ゴルフ / トレーニング / ジョギング / 球技など）',
+  'アウトドア・自然（登山 / キャンプ / 釣りなど）',
+  '芸術活動（絵画を書く / 写真を撮る / 楽器演奏 / 舞踊など）',
+  '知的・学習系（語学 / 資格 / プログラミング / 投資など）',
+  'パズル・ボードゲーム系（パズル / クイズ / 麻雀 / 囲碁 / ボードゲームなど）',
+  'デジタル機器を用いたゲーム（TVゲーム / PCゲーム / スマホゲームなど）',
+  '生活・暮らし（料理 / お菓子作り / ガーデニングなど）',
+  'クラフト（アクセサリー作り / 編み物 / 刺繍 / 陶芸など）',
+  'DIY・工具を使った作業（DIY / 家具づくり / 車・バイクいじりなど）',
+  'グルメ・食文化体験（食べ歩き / グルメ巡り / カフェ巡りなど）',
+  '旅行（寺社巡り / 御朱印集め含む）',
+  '読書（小説 / 漫画など）',
+  '公営ギャンブル（パチンコ / 競馬 / 競輪など）',
+  'ドライブ・ツーリング',
+  'その他',
+];
+const FOOD_ITEMS = [
+  { cat: 'ごはん', label: '雑穀や麦を混ぜたごはん、玄米、胚芽米、分つき米', key: 'f_gohan_z' },
+  { cat: 'ごはん', label: '白ごはん（雑穀や麦を混ぜてないもの）', key: 'f_gohan_w' },
+  { cat: 'パン', label: '全粒粉、ライ麦、大麦、雑穀のパン', key: 'f_bread_w' },
+  { cat: 'パン', label: '上記以外のパン', key: 'f_bread_o' },
+  { cat: 'シリアル', label: 'シリアル（コーンフレーク、グラノーラなど）', key: 'f_cereal' },
+  { cat: 'めん類', label: 'めん類（うどん、ラーメン、そば、パスタなど）', key: 'f_noodle' },
+  { cat: 'いも類', label: 'いも類・いも入りの料理（肉じゃが、カレーライス、ポテトサラダなど）', key: 'f_potato' },
+  { cat: 'みそ汁', label: 'みそ汁', key: 'f_miso' },
+  { cat: '大豆製品', label: '大豆製品（納豆、豆腐、がんもどき、豆乳など）', key: 'f_soy' },
+  { cat: '野菜', label: '生野菜、サラダ', key: 'f_veg_r' },
+  { cat: '野菜', label: '調理した野菜（おひたしなど）、野菜がたくさん入った料理や汁物', key: 'f_veg_c' },
+  { cat: 'きのこ', label: 'きのこ入りの料理や汁物', key: 'f_mushroom' },
+  { cat: '海そう', label: '海そう（乾燥のりを含む）入りの料理や汁物', key: 'f_seaweed' },
+  { cat: '果物', label: '果物', key: 'f_fruit' },
+  { cat: '魚介類', label: '魚介類（缶詰、かまぼこ・ちくわなどの練り製品も含む）', key: 'f_fish' },
+  { cat: '牛肉・豚肉', label: '牛肉、豚肉、レバー（ハム、ソーセージなど加工品も含む）', key: 'f_beef' },
+  { cat: 'とり肉', label: 'とり肉', key: 'f_chicken' },
+  { cat: '卵', label: '卵、卵料理', key: 'f_egg' },
+  { cat: '牛乳・乳製品', label: '牛乳、乳製品（チーズ、ヨーグルトなど）', key: 'f_dairy' },
+  { cat: 'ナッツ', label: 'ナッツ（ピーナッツ、アーモンド、クルミ、ピスタチオなど）', key: 'f_nuts' },
+  { cat: '塩分食品', label: '塩分を多く含む食品（梅干し、漬物、干物、塩蔵の魚や魚卵など）', key: 'f_salty' },
+  { cat: '揚げ物', label: '揚げ物（天ぷら、唐揚げ、カツ、フライ、フライドポテトなど）', key: 'f_fried' },
+];
+const DRINK_ITEMS = [
+  { label: 'コーヒー（缶・ペットボトル入りを含む）', key: 'd_coffee' },
+  { label: '緑茶（缶・ペットボトル入りを含む）', key: 'd_green' },
+  { label: '100％野菜・果物ジュース', key: 'd_juice' },
+  { label: '砂糖入りの市販飲料（スポーツドリンク、缶コーヒー・紅茶、コーラ、ジュースなど）', key: 'd_sugar' },
+  { label: '人工甘味料入りの市販飲料（カロリーゼロや低カロリーの甘い飲料）', key: 'd_diet' },
+];
+const LEISURE_ITEMS = [
+  { label: '息がはずまない程度の運動（散歩、ウォーキング、ラジオ体操、ヨガ、ゴルフ、趣味の庭仕事など）', key: 'le_light' },
+  { label: '息がはずむが、話しはできる程度の運動（軽いジョギング、水泳、スキー、ダンス、軽い球技など）', key: 'le_mod' },
+  { label: '非常に息がはずみ、話しができない程度の運動（格闘技、激しい球技、マラソンなど）', key: 'le_hard' },
+];
+const NATURE_ITEMS = [
+  { label: '山や森林（登山・ハイキング・散策、キャンプ・釣り、自然観察など）', key: 'nat_mountain' },
+  { label: '緑の豊かな公園等（都市公園・緑地・ゴルフ場など）', key: 'nat_park' },
+  { label: '海や海岸（海水浴、海辺を散歩、サーフィン、潮干狩りなど）', key: 'nat_sea' },
+];
+const K6_ITEMS = [
+  '神経過敏に感じましたか',
+  '絶望的だと感じましたか',
+  'そわそわ、落ち着かなく感じましたか',
+  '気分が沈んで、何が起こっても気が晴れないように感じましたか',
+  '何をするのも骨折りだと感じましたか',
+  '自分は価値のない人間だと感じましたか',
+];
 
-  const STORAGE_KEY = 'survey_data_v1';
-
-  function loadRecords() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    catch { return []; }
-  }
-
-  function saveRecords(records) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-  }
-
-  // フォームから回答を収集
-  function collectFormData() {
-    const form = document.getElementById('survey');
-    const data = { timestamp: new Date().toLocaleString('ja-JP') };
-
-    COLUMNS.slice(1).forEach(col => {
-      const els = form.querySelectorAll(`[name="${col.key}"]`);
-      if (!els.length) { data[col.key] = ''; return; }
-
-      if (els[0].type === 'checkbox') {
-        const checked = [...els].filter(e => e.checked).map(e => e.value);
-        data[col.key] = checked.join('|');
-      } else if (els[0].type === 'radio') {
-        const checked = [...els].find(e => e.checked);
-        data[col.key] = checked ? checked.value : '';
-      } else {
-        data[col.key] = els[0].value;
-      }
+// ============================================================
+// テーブル動的生成
+// ============================================================
+function buildLikert4(tbodyId, items, namePrefix, cols) {
+  const tbody = document.getElementById(tbodyId);
+  items.forEach((item, i) => {
+    const tr = document.createElement('tr');
+    let html = `<td class="q-cell">${item}</td>`;
+    cols.forEach((_, ci) => {
+      html += `<td><input type="radio" name="${namePrefix}${i+1}" value="${ci+1}"></td>`;
     });
-
-    // BMI計算
-    const h = parseFloat(data.height), w = parseFloat(data.weight);
-    data.bmi = (h > 0 && w > 0) ? (w / ((h/100)**2)).toFixed(1) : '';
-
-    return data;
-  }
-
-  // 管理画面テーブル描画
-  function renderTable() {
-    const records = loadRecords();
-    document.getElementById('record-count').textContent = `${records.length}件の回答`;
-
-    const thead = document.getElementById('table-head');
-    thead.innerHTML = '<tr>' + COLUMNS.map(c =>
-      `<th style="padding:8px 12px;text-align:left;white-space:nowrap;font-weight:500;">${c.label}</th>`
-    ).join('') + '</tr>';
-
-    const tbody = document.getElementById('table-body');
-    if (records.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="${COLUMNS.length}" style="padding:24px;text-align:center;color:var(--muted);">まだ回答データがありません</td></tr>`;
-      return;
-    }
-    tbody.innerHTML = records.map((rec, i) =>
-      '<tr style="border-top:1px solid var(--border);' + (i%2===0?'background:#fafafa;':'') + '">' +
-      COLUMNS.map(c => `<td style="padding:7px 12px;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis;">${rec[c.key] ?? ''}</td>`).join('') +
-      '</tr>'
-    ).join('');
-  }
-
-  function showAdmin() {
-    document.getElementById('success').style.display = 'none';
-    document.getElementById('admin').style.display = 'block';
-    renderTable();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // CSV ダウンロード
-  function downloadCSV() {
-    const records = loadRecords();
-    if (records.length === 0) { alert('まだ回答データがありません。'); return; }
-
-    const header = COLUMNS.map(c => `"${c.label}"`).join(',');
-    const rows = records.map(rec =>
-      COLUMNS.map(c => `"${(rec[c.key] ?? '').toString().replace(/"/g, '""')}"`).join(',')
-    );
-    const csv = '\uFEFF' + [header, ...rows].join('\n'); // BOM付きUTF-8（Excel対応）
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `疫学調査_${new Date().toLocaleDateString('ja-JP').replace(/\//g,'-')}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  function clearData() {
-    if (!confirm('すべての回答データを削除しますか？この操作は元に戻せません。')) return;
-    localStorage.removeItem(STORAGE_KEY);
-    renderTable();
-  }
-
-  // ---- 既存機能 ----
-
-  function calcBMI() {
-    const h = parseFloat(document.querySelector('[name=height]').value);
-    const w = parseFloat(document.querySelector('[name=weight]').value);
-    const display = document.getElementById('bmi-display');
-    if (h > 0 && w > 0) {
-      const bmi = (w / ((h/100) ** 2)).toFixed(1);
-      let cat = bmi < 18.5 ? '低体重' : bmi < 25 ? '普通体重' : bmi < 30 ? '過体重' : '肥満';
-      display.textContent = `BMI: ${bmi}（${cat}）`;
-    }
-  }
-  document.querySelector('[name=height]').addEventListener('input', calcBMI);
-  document.querySelector('[name=weight]').addEventListener('input', calcBMI);
-
-  document.querySelectorAll('[name=alcohol]').forEach(r => {
-    r.addEventListener('change', () => {
-      const show = ['sometimes','daily'].includes(r.value);
-      document.getElementById('alcohol-amount-field').style.display = show ? '' : 'none';
-    });
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
   });
+}
 
-  document.querySelectorAll('[name=smoking]').forEach(r => {
-    r.addEventListener('change', () => {
-      document.getElementById('smoking-amount-field').style.display = r.value === 'current' ? '' : 'none';
-    });
+// 仕事の状況（4択）
+buildLikert4('job-status-tbody', JOB_STATUS_ITEMS, 'js_', ['そうだ','まあそうだ','ややちがう','ちがう']);
+
+// WFC（3択）
+buildLikert4('wfc-tbody', WFC_ITEMS, 'wfc_', ['全くない','ある程度ある','よくある']);
+
+// FWC（3択）
+buildLikert4('fwc-tbody', FWC_ITEMS, 'fwc_', ['全くない','ある程度ある','よくある']);
+
+// 社会活動（5択）
+buildLikert4('community-tbody', COMMUNITY_ITEMS, 'com_', ['まったくない','年に数回','月1～3回','週1回','週2回以上']);
+
+// K6（5択）
+buildLikert4('k6-tbody', K6_ITEMS, 'k6_', ['全くない','少しだけ','ときどき','たいてい','いつも']);
+
+// 趣味チェックボックス
+(function() {
+  const wrap = document.getElementById('hobby-checks');
+  HOBBY_OPTIONS.forEach((opt, i) => {
+    const label = document.createElement('label');
+    label.innerHTML = `<input type="checkbox" name="hobby" value="${i+1}"> ${opt}`;
+    wrap.appendChild(label);
   });
+})();
 
-  function updateProgress() {
-    const required = document.querySelectorAll('[required]');
-    let filled = 0;
-    required.forEach(el => {
-      if (el.type === 'radio') {
-        if (document.querySelector(`[name=${el.name}]:checked`)) filled++;
-      } else if (el.value.trim()) filled++;
-    });
-    const pct = Math.round((filled / required.length) * 100);
-    document.getElementById('progress').style.width = pct + '%';
-  }
-  document.getElementById('survey').addEventListener('input', updateProgress);
-  document.getElementById('survey').addEventListener('change', updateProgress);
-
-
-  // ---- 食品摂取頻度テーブル生成 ----
-  const FOOD_ITEMS = [
-    { key: 'food_gohan_zakkoku', label: 'ごはん', sub: '雑穀や麦を混ぜたごはん、玄米、胚芽米、分つき米' },
-    { key: 'food_gohan_white',   label: 'ごはん', sub: '白ごはん（雑穀を混ぜないもの）' },
-    { key: 'food_bread_whole',   label: 'パン', sub: '全粒粉ライ麦大麦雑穀のパン' },
-    { key: 'food_bread_other',   label: 'パン', sub: '上記以外のパン' },
-    { key: 'food_cereal',        label: 'シリアル', sub: 'コーンフレーク、グラノーラなど' },
-    { key: 'food_noodle',        label: 'めん類', sub: 'うどん、ラーメン、そば、パスタなど' },
-    { key: 'food_potato',        label: 'いも類・いも入り料理', sub: '肉じゃが、カレーライス、ポテトサラダなど' },
-    { key: 'food_miso',          label: 'みそ汁', sub: '' },
-    { key: 'food_soy',           label: '大豆製品', sub: '納豆、豆腐、がんもどき、豆乳など' },
-    { key: 'food_veg_raw',       label: '生野菜・サラダ', sub: '' },
-    { key: 'food_veg_cooked',    label: '調理した野菜・野菜料理', sub: 'おひたしなど、野菜がたくさん入った料理や汁物' },
-    { key: 'food_mushroom',      label: 'きのこ入り料理や汁物', sub: '' },
-    { key: 'food_seaweed',       label: '海そう入り料理や汁物', sub: '乾燥のりを含む' },
-    { key: 'food_fruit',         label: '果物', sub: '' },
-    { key: 'food_fish',          label: '魚介類', sub: '缶詰、かまぼこなどの練製品も含む' },
-    { key: 'food_beef_pork',     label: '牛肉・豚肉・レバー', sub: 'ハム、ソーセージなど加工品も含む' },
-    { key: 'food_chicken',       label: 'とり肉', sub: '' },
-    { key: 'food_egg',           label: '卵・卵料理', sub: '' },
-    { key: 'food_dairy',         label: '牛乳・乳製品', sub: 'チーズ、ヨーグルトなど' },
-    { key: 'food_nuts',          label: 'ナッツ類', sub: 'ピーナッツ、アーモンド、クルミ、ピスタチオなど' },
-    { key: 'food_salty',         label: '塩分を多く含む食品', sub: '塩辛、漬物、干物、塩蔵の魚や魚卵など' },
-    { key: 'food_fried',         label: '揚げ物', sub: '天ぷら、唐揚げ、カツ、フライ、フライドポテトなど' },
-  ];
-
-  const FREQ_VALUES = [
-    { value: '1', label: 'ほとんど<br>食べない' },
-    { value: '2', label: '月<br>1〜3回' },
-    { value: '3', label: '週<br>1〜2回' },
-    { value: '4', label: '週<br>3〜4回' },
-    { value: '5', label: '週<br>5〜6回' },
-    { value: '6', label: '毎日<br>1回' },
-    { value: '7', label: '毎日<br>2回' },
-    { value: '8', label: '毎日<br>3回以上' },
-  ];
-
-  (function buildFoodTable() {
-    const tbody = document.getElementById('freq-tbody');
-    FOOD_ITEMS.forEach(item => {
+// 食品テーブル
+(function() {
+  const tbody = document.getElementById('food-tbody');
+  let lastCat = '';
+  FOOD_ITEMS.forEach(item => {
+    if (item.cat !== lastCat) {
       const tr = document.createElement('tr');
-      const tdLabel = document.createElement('td');
-      tdLabel.className = 'ft-food';
-      tdLabel.innerHTML = item.label + (item.sub ? `<span class="food-sub">${item.sub}</span>` : '');
-      tr.appendChild(tdLabel);
-      FREQ_VALUES.forEach(freq => {
-        const td = document.createElement('td');
-        td.innerHTML = `<input type="radio" name="${item.key}" value="${freq.value}" required>`;
-        tr.appendChild(td);
-      });
+      tr.innerHTML = `<td class="f-cat" colspan="9">${item.cat}</td>`;
       tbody.appendChild(tr);
-    });
-  })();
-
-  // 食品バリデーション
-  function validateFood() {
-    return FOOD_ITEMS.every(item => document.querySelector(`[name="${item.key}"]:checked`));
-  }
-
-  // ---- バリデーション ----
-  // 必須ラジオグループ
-  const REQUIRED_RADIOS = ['sex','shift','meals','alcohol','smoking','exercise','work_activity','stress','checkup'];
-  // 必須チェックボックスグループ（1つ以上選択）
-  const REQUIRED_CHECKS = ['exercise_type','disease','family_history','medication'];
-  // 必須select
-  const REQUIRED_SELECTS = ['breakfast','eating_out','sleep_hours','sleep_quality'];
-
-  function validate() {
-    let errors = [];
-
-    // 通常のrequiredフィールド（age, sex radio等）
-    REQUIRED_RADIOS.forEach(name => {
-      if (!document.querySelector(`[name="${name}"]:checked`)) {
-        errors.push(name);
-      }
-    });
-
-    // チェックボックス（1つ以上）
-    REQUIRED_CHECKS.forEach(name => {
-      if (!document.querySelector(`[name="${name}"]:checked`)) {
-        errors.push(name);
-      }
-    });
-
-    // select
-    REQUIRED_SELECTS.forEach(name => {
-      const el = document.querySelector(`[name="${name}"]`);
-      if (el && !el.value) errors.push(name);
-    });
-
-    // 数値入力（age必須）
-    const age = document.querySelector('[name=age]');
-    if (!age.value) errors.push('age');
-
-    // 飲酒量（飲む場合のみ）
-    const alcoholVal = document.querySelector('[name=alcohol]:checked');
-    if (alcoholVal && ['sometimes','daily'].includes(alcoholVal.value)) {
-      const amt = document.querySelector('[name=alcohol_amount]');
-      if (!amt.value) errors.push('alcohol_amount');
+      lastCat = item.cat;
     }
-
-    // 喫煙本数（現在吸う場合のみ）
-    const smokingVal = document.querySelector('[name=smoking]:checked');
-    if (smokingVal && smokingVal.value === 'current') {
-      const cig = document.querySelector('[name=cigarettes]');
-      if (!cig.value) errors.push('cigarettes');
+    const tr = document.createElement('tr');
+    let html = `<td class="f-item">${item.label}</td>`;
+    for (let v = 1; v <= 8; v++) {
+      html += `<td><input type="radio" name="${item.key}" value="${v}"></td>`;
     }
-
-    // 食品摂取頻度
-    if (!validateFood()) errors.push('food_table');
-
-    return errors;
-  }
-
-  function highlightErrors(errors) {
-    // 既存のエラー表示をリセット
-    document.querySelectorAll('.field-error').forEach(el => el.remove());
-    document.querySelectorAll('.error-highlight').forEach(el => el.classList.remove('error-highlight'));
-
-    errors.forEach(name => {
-      const el = document.querySelector(`[name="${name}"]`);
-      if (!el) return;
-      const field = el.closest('.field');
-      if (!field) return;
-      field.classList.add('error-highlight');
-      if (!field.querySelector('.field-error')) {
-        const msg = document.createElement('p');
-        msg.className = 'field-error';
-        msg.textContent = '※ この項目は必須です';
-        field.appendChild(msg);
-      }
-    });
-
-    // 食品テーブルのエラー表示
-    const foodErr = document.getElementById('food-error');
-    if (errors.includes('food_table')) {
-      foodErr.style.display = 'block';
-    } else {
-      foodErr.style.display = 'none';
-    }
-
-    // 最初のエラー箇所にスクロール
-    if (errors.length > 0) {
-      const first = document.querySelector('.error-highlight') || document.getElementById('food-error');
-      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }
-
-  // 送信 → Googleスプレッドシートに送信
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxOw7sA0l0oFB3WbJgX7QIUlOttjeIj6EzK9Yd9l87U8J_PfN_0twEmkmXNjnKznewx5A/exec';
-
-  document.getElementById('survey').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // バリデーション
-    const errors = validate();
-    if (errors.length > 0) {
-      highlightErrors(errors);
-      return;
-    }
-    highlightErrors([]); // エラーをクリア
-
-    const data = collectFormData();
-
-    // ローカルにも保存
-    const records = loadRecords();
-    records.push(data);
-    saveRecords(records);
-
-    // ボタンをローディング状態に
-    const btn = this.querySelector('button[type=submit]');
-    btn.textContent = '送信中...';
-    btn.disabled = true;
-
-    // Googleスプレッドシートに送信
-    fetch(GAS_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(() => {
-      this.style.display = 'none';
-      document.getElementById('success').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    })
-    .catch(() => {
-      this.style.display = 'none';
-      document.getElementById('success').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
   });
+})();
+
+// 飲み物テーブル
+(function() {
+  const tbody = document.getElementById('drink-tbody');
+  DRINK_ITEMS.forEach(item => {
+    const tr = document.createElement('tr');
+    let html = `<td class="f-item">${item.label}</td>`;
+    for (let v = 1; v <= 8; v++) {
+      html += `<td><input type="radio" name="${item.key}" value="${v}"></td>`;
+    }
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+})();
+
+// 余暇活動テーブル
+(function() {
+  const tbody = document.getElementById('leisure-tbody');
+  LEISURE_ITEMS.forEach(item => {
+    const tr = document.createElement('tr');
+    let html = `<td class="a-item">${item.label}</td>`;
+    for (let v = 1; v <= 6; v++) html += `<td><input type="radio" name="${item.key}_freq" value="${v}"></td>`;
+    html += '<td></td>';
+    for (let v = 1; v <= 6; v++) html += `<td><input type="radio" name="${item.key}_time" value="${v}"></td>`;
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+})();
+
+// 自然テーブル
+buildLikert4('nature-tbody', NATURE_ITEMS.map(n=>n.label), 'nat_', ['行かなかった','年1～3回','年4～11回','月1回','月2～3回','週1回以上']);
+
+// ============================================================
+// 条件付き表示
+// ============================================================
+function toggle(el, show) {
+  el.style.display = show ? '' : 'none';
+}
+
+document.querySelectorAll('[name=household]').forEach(r => r.addEventListener('change', function() {
+  toggle(document.getElementById('f-hh-member'), this.value !== '1');
+}));
+document.querySelectorAll('[name=wfc_1],[name=wfc_2],[name=wfc_3],[name=wfc_4]').forEach(r => r.addEventListener('change', function() {
+  const hasWFC = ['wfc_1','wfc_2','wfc_3','wfc_4'].some(n => {
+    const checked = document.querySelector(`[name=${n}]:checked`);
+    return checked && (checked.value === '2' || checked.value === '3');
+  });
+  toggle(document.getElementById('f-wfc-reason'), hasWFC);
+}));
+document.querySelectorAll('[name=hobby_yn]').forEach(r => r.addEventListener('change', function() {
+  toggle(document.getElementById('f-hobby'), this.value === '2');
+}));
+document.querySelectorAll('[name=cig]').forEach(r => r.addEventListener('change', function() {
+  const v = parseInt(this.value);
+  toggle(document.getElementById('f-cig-years'), v >= 5);
+}));
+document.querySelectorAll('[name=heat]').forEach(r => r.addEventListener('change', function() {
+  const v = parseInt(this.value);
+  const active = v >= 4;
+  toggle(document.getElementById('f-heat-sub'), active);
+  toggle(document.getElementById('f-heat-years'), active);
+}));
+document.querySelectorAll('[name=alc_freq]').forEach(r => r.addEventListener('change', function() {
+  const drinks = ['3','4','5','6','7'].includes(this.value);
+  toggle(document.getElementById('f-alc-amount'), drinks);
+  toggle(document.getElementById('f-alc-degree'), drinks);
+}));
+document.querySelectorAll('[name=chronic]').forEach(r => r.addEventListener('change', function() {
+  const has = this.value === '2';
+  toggle(document.getElementById('f-chronic-impact'), has);
+  toggle(document.getElementById('f-chronic-type'), has);
+}));
+document.querySelectorAll('[name=covid]').forEach(r => r.addEventListener('change', function() {
+  toggle(document.getElementById('f-covid-when'), this.value === '2');
+}));
+document.querySelectorAll('[name=sex]').forEach(r => r.addEventListener('change', function() {
+  toggle(document.getElementById('f-female-section'), this.value === '2');
+}));
+
+// ============================================================
+// プログレスバー
+// ============================================================
+function updateProgress() {
+  const radios = ['consent','shift','telework','overtime','interval','overtime12','job','rank','employ',
+    'commute','commute_walk','household','health_self','sick_days','performance','chronic',
+    'alc_const','alc_flush','alc_freq','non_alc','cig','heat','other_tobacco','first_smoke',
+    'passive_cig','passive_heat','balanced_meal','eat_together','breakfast',
+    'sleep_hours','sleep_quality','sleep_latency','sleep_trouble','covid','marital','edu','smartphone','sex',
+    'hobby_yn','work_heavy','work_stand'];
+  let filled = 0;
+  radios.forEach(n => { if (document.querySelector(`[name=${n}]:checked`)) filled++; });
+  const pct = Math.round((filled / radios.length) * 100);
+  document.getElementById('progress').style.width = pct + '%';
+}
+document.getElementById('survey').addEventListener('change', updateProgress);
+
+// ============================================================
+// バリデーション
+// ============================================================
+function showErr(id, show) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = show ? 'block' : 'none';
+}
+
+function checkRadio(name) { return !!document.querySelector(`[name="${name}"]:checked`); }
+function checkCheck(name) { return !!document.querySelector(`[name="${name}"]:checked`); }
+function checkText(name) { const el = document.querySelector(`[name="${name}"]`); return el && el.value.trim() !== ''; }
+function checkGroup(prefix, count) {
+  for (let i = 1; i <= count; i++) {
+    if (!document.querySelector(`[name="${prefix}${i}"]:checked`)) return false;
+  }
+  return true;
+}
+
+function validate() {
+  let errors = [];
+  const addErr = (id, ok) => { showErr(id, !ok); if (!ok) errors.push(id); };
+
+  addErr('e-consent', checkRadio('consent'));
+  addErr('e-empno', checkText('empno'));
+  addErr('e-name', checkText('name'));
+
+  addErr('e-shift', checkRadio('shift'));
+  addErr('e-telework', checkRadio('telework'));
+  addErr('e-overtime', checkRadio('overtime'));
+  addErr('e-interval', checkRadio('interval'));
+  addErr('e-overtime12', checkRadio('overtime12'));
+  addErr('e-job', checkRadio('job'));
+  addErr('e-rank', checkRadio('rank'));
+  addErr('e-employ', checkRadio('employ'));
+  addErr('e-spechealth', checkCheck('spechealth'));
+
+  addErr('e-commute', checkRadio('commute'));
+  addErr('e-commute-walk', checkRadio('commute_walk'));
+
+  addErr('e-job-status', checkGroup('js_', JOB_STATUS_ITEMS.length));
+
+  addErr('e-household', checkRadio('household'));
+  const hasHH = document.querySelector('[name=household]:checked')?.value !== '1';
+  if (hasHH) addErr('e-hh-member', checkCheck('hh_member'));
+  addErr('e-wfc', checkGroup('wfc_', WFC_ITEMS.length));
+  addErr('e-fwc', checkGroup('fwc_', FWC_ITEMS.length));
+
+  addErr('e-community', checkGroup('com_', COMMUNITY_ITEMS.length));
+
+  addErr('e-hobby-yn', checkRadio('hobby_yn'));
+  const hobbyYes = document.querySelector('[name=hobby_yn]:checked')?.value === '2';
+  if (hobbyYes) addErr('e-hobby', checkCheck('hobby'));
+
+  addErr('e-cig', checkRadio('cig'));
+  const cigActive = parseInt(document.querySelector('[name=cig]:checked')?.value||0) >= 5;
+  if (cigActive) addErr('e-cig-years', checkText('cig_years'));
+  addErr('e-heat', checkRadio('heat'));
+  const heatActive = parseInt(document.querySelector('[name=heat]:checked')?.value||0) >= 4;
+  if (heatActive) { addErr('e-heat-sub', checkCheck('heat_brand')); addErr('e-heat-years', checkText('heat_years')); }
+  addErr('e-other-tobacco', checkCheck('other_tobacco'));
+  addErr('e-first-smoke', checkRadio('first_smoke'));
+
+  addErr('e-passive', checkRadio('passive_cig') && checkRadio('passive_heat'));
+
+  addErr('e-alc-const', checkRadio('alc_const'));
+  addErr('e-alc-flush', checkRadio('alc_flush'));
+  addErr('e-alc-freq', checkRadio('alc_freq'));
+  const drinks = ['3','4','5','6','7'].includes(document.querySelector('[name=alc_freq]:checked')?.value||'');
+  if (drinks) { addErr('e-alc-amount', checkRadio('alc_amount')); addErr('e-alc-degree', checkRadio('alc_degree')); }
+  addErr('e-non-alc', checkRadio('non_alc'));
+
+  // 食品
+  const foodOk = FOOD_ITEMS.every(f => document.querySelector(`[name="${f.key}"]:checked`));
+  addErr('e-food', foodOk);
+  const drinkOk = DRINK_ITEMS.every(d => document.querySelector(`[name="${d.key}"]:checked`));
+  addErr('e-drink', drinkOk);
+  addErr('e-balanced-meal', checkRadio('balanced_meal'));
+  addErr('e-eat-together', checkRadio('eat_together'));
+  addErr('e-breakfast', checkRadio('breakfast'));
+
+  addErr('e-work-act', checkRadio('work_heavy') && checkRadio('work_stand'));
+
+  // 余暇
+  const leisureOk = LEISURE_ITEMS.every(l => document.querySelector(`[name="${l.key}_freq"]:checked`));
+  addErr('e-leisure-act', leisureOk);
+
+  const natureOk = checkGroup('nat_', NATURE_ITEMS.length);
+  addErr('e-nature', natureOk);
+
+  addErr('e-sleep-hours', checkRadio('sleep_hours'));
+  addErr('e-sleep-quality', checkRadio('sleep_quality'));
+  addErr('e-sleep-latency', checkRadio('sleep_latency'));
+  addErr('e-sleep-trouble', checkRadio('sleep_trouble'));
+
+  addErr('e-health-self', checkRadio('health_self'));
+  addErr('e-sick-days', checkRadio('sick_days'));
+  addErr('e-performance', checkRadio('performance'));
+  addErr('e-chronic', checkRadio('chronic'));
+  const hasChronic = document.querySelector('[name=chronic]:checked')?.value === '2';
+  if (hasChronic) { addErr('e-chronic-impact', checkRadio('chronic_impact')); addErr('e-chronic-type', checkRadio('chronic_type')); }
+
+  addErr('e-k6', checkGroup('k6_', K6_ITEMS.length));
+
+  addErr('e-covid', checkRadio('covid'));
+  const covidYes = document.querySelector('[name=covid]:checked')?.value === '2';
+  if (covidYes) addErr('e-covid-when', checkRadio('covid_when'));
+
+  addErr('e-birth', checkText('birth_year') && checkText('birth_month'));
+  addErr('e-marital', checkRadio('marital'));
+  addErr('e-edu', checkRadio('edu'));
+  addErr('e-pet', checkCheck('pet'));
+  addErr('e-smartphone', checkRadio('smartphone'));
+  addErr('e-sex', checkRadio('sex'));
+
+  const isFemale = document.querySelector('[name=sex]:checked')?.value === '2';
+  if (isFemale) { addErr('e-pregnant', checkRadio('pregnant')); addErr('e-menopause', checkRadio('menopause')); }
+
+  return errors;
+}
+
+// ============================================================
+// 送信
+// ============================================================
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxOw7sA0l0oFB3WbJgX7QIUlOttjeIj6EzK9Yd9l87U8J_PfN_0twEmkmXNjnKznewx5A/exec';
+
+document.getElementById('survey').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const errors = validate();
+  if (errors.length > 0) {
+    const first = document.getElementById(errors[0]);
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const btn = this.querySelector('.btn-submit');
+  btn.textContent = '送信中...'; btn.disabled = true;
+
+  // データ収集
+  const data = { timestamp: new Date().toLocaleString('ja-JP') };
+  const fd = new FormData(this);
+  for (const [k, v] of fd.entries()) {
+    if (data[k]) data[k] += '|' + v;
+    else data[k] = v;
+  }
+
+  fetch(GAS_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) })
+    .finally(() => {
+      this.style.display = 'none';
+      document.getElementById('success').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+});
 </script>
 </body>
 </html>
