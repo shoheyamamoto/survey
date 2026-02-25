@@ -290,6 +290,16 @@
 
   .success p { color: var(--muted); font-size: 14px; }
 
+  .error-highlight {
+    border-left: 3px solid var(--error);
+    padding-left: 12px;
+  }
+  .field-error {
+    color: var(--error);
+    font-size: 11px;
+    margin-top: 5px;
+  }
+
   @keyframes fadeDown {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -386,8 +396,8 @@
       </div>
 
       <div class="field">
-        <label>朝食の摂取頻度</label>
-        <select name="breakfast">
+        <label>朝食の摂取頻度<span class="required">*必須</span></label>
+        <select name="breakfast" required>
           <option value="">選択してください</option>
           <option value="everyday">毎日食べる</option>
           <option value="mostly">ほぼ毎日（週5〜6日）</option>
@@ -398,8 +408,8 @@
       </div>
 
       <div class="field">
-        <label>外食・コンビニ食の頻度</label>
-        <select name="eating_out">
+        <label>外食・コンビニ食の頻度<span class="required">*必須</span></label>
+        <select name="eating_out" required>
           <option value="">選択してください</option>
           <option value="everyday">毎日</option>
           <option value="often">週4〜6回</option>
@@ -463,7 +473,7 @@
       </div>
 
       <div class="field">
-        <label>主な運動の種類（複数選択可）</label>
+        <label>主な運動の種類（複数選択可）<span class="required">*必須</span></label>
         <div class="checkbox-group">
           <label><input type="checkbox" name="exercise_type" value="walking"> ウォーキング</label>
           <label><input type="checkbox" name="exercise_type" value="running"> ジョギング・ランニング</label>
@@ -486,8 +496,8 @@
           </select>
         </div>
         <div class="field">
-          <label>睡眠の質の自己評価</label>
-          <select name="sleep_quality">
+          <label>睡眠の質の自己評価<span class="required">*必須</span></label>
+          <select name="sleep_quality" required>
             <option value="">選択してください</option>
             <option value="very_good">とても良い</option>
             <option value="good">良い</option>
@@ -499,9 +509,9 @@
       </div>
 
       <div class="field">
-        <label>仕事中の身体活動レベル</label>
+        <label>仕事中の身体活動レベル<span class="required">*必須</span></label>
         <div class="radio-group">
-          <label><input type="radio" name="work_activity" value="sedentary"> ほぼ座り仕事</label>
+          <label><input type="radio" name="work_activity" value="sedentary" required> ほぼ座り仕事</label>
           <label><input type="radio" name="work_activity" value="light"> 立ち仕事・軽作業</label>
           <label><input type="radio" name="work_activity" value="moderate"> 中程度の肉体労働</label>
           <label><input type="radio" name="work_activity" value="heavy"> 重作業・重労働</label>
@@ -509,9 +519,9 @@
       </div>
 
       <div class="field">
-        <label>主観的なストレスレベル（直近1ヶ月）</label>
+        <label>主観的なストレスレベル（直近1ヶ月）<span class="required">*必須</span></label>
         <div class="radio-group">
-          <label><input type="radio" name="stress" value="1"> 1（低い）</label>
+          <label><input type="radio" name="stress" value="1" required> 1（低い）</label>
           <label><input type="radio" name="stress" value="2"> 2</label>
           <label><input type="radio" name="stress" value="3"> 3</label>
           <label><input type="radio" name="stress" value="4"> 4</label>
@@ -540,7 +550,7 @@
       </div>
 
       <div class="field">
-        <label>家族歴（親・兄弟姉妹）（複数選択可）</label>
+        <label>家族歴（親・兄弟姉妹）（複数選択可）<span class="required">*必須</span></label>
         <div class="checkbox-group">
           <label><input type="checkbox" name="family_history" value="none"> なし/不明</label>
           <label><input type="checkbox" name="family_history" value="hypertension"> 高血圧</label>
@@ -552,7 +562,7 @@
       </div>
 
       <div class="field">
-        <label>現在服用中の薬（複数選択可）</label>
+        <label>現在服用中の薬（複数選択可）<span class="required">*必須</span></label>
         <div class="checkbox-group">
           <label><input type="checkbox" name="medication" value="none"> なし</label>
           <label><input type="checkbox" name="medication" value="antihypertensive"> 降圧薬</label>
@@ -564,9 +574,9 @@
       </div>
 
       <div class="field">
-        <label>直近1年以内の健康診断の受診</label>
+        <label>直近1年以内の健康診断の受診<span class="required">*必須</span></label>
         <div class="radio-group">
-          <label><input type="radio" name="checkup" value="yes"> 受診した</label>
+          <label><input type="radio" name="checkup" value="yes" required> 受診した</label>
           <label><input type="radio" name="checkup" value="no"> 受診していない</label>
         </div>
       </div>
@@ -780,11 +790,98 @@
   document.getElementById('survey').addEventListener('input', updateProgress);
   document.getElementById('survey').addEventListener('change', updateProgress);
 
+  // ---- バリデーション ----
+  // 必須ラジオグループ
+  const REQUIRED_RADIOS = ['sex','shift','meals','alcohol','smoking','exercise','work_activity','stress','checkup'];
+  // 必須チェックボックスグループ（1つ以上選択）
+  const REQUIRED_CHECKS = ['exercise_type','disease','family_history','medication'];
+  // 必須select
+  const REQUIRED_SELECTS = ['breakfast','eating_out','sleep_hours','sleep_quality'];
+
+  function validate() {
+    let errors = [];
+
+    // 通常のrequiredフィールド（age, sex radio等）
+    REQUIRED_RADIOS.forEach(name => {
+      if (!document.querySelector(`[name="${name}"]:checked`)) {
+        errors.push(name);
+      }
+    });
+
+    // チェックボックス（1つ以上）
+    REQUIRED_CHECKS.forEach(name => {
+      if (!document.querySelector(`[name="${name}"]:checked`)) {
+        errors.push(name);
+      }
+    });
+
+    // select
+    REQUIRED_SELECTS.forEach(name => {
+      const el = document.querySelector(`[name="${name}"]`);
+      if (el && !el.value) errors.push(name);
+    });
+
+    // 数値入力（age必須）
+    const age = document.querySelector('[name=age]');
+    if (!age.value) errors.push('age');
+
+    // 飲酒量（飲む場合のみ）
+    const alcoholVal = document.querySelector('[name=alcohol]:checked');
+    if (alcoholVal && ['sometimes','daily'].includes(alcoholVal.value)) {
+      const amt = document.querySelector('[name=alcohol_amount]');
+      if (!amt.value) errors.push('alcohol_amount');
+    }
+
+    // 喫煙本数（現在吸う場合のみ）
+    const smokingVal = document.querySelector('[name=smoking]:checked');
+    if (smokingVal && smokingVal.value === 'current') {
+      const cig = document.querySelector('[name=cigarettes]');
+      if (!cig.value) errors.push('cigarettes');
+    }
+
+    return errors;
+  }
+
+  function highlightErrors(errors) {
+    // 既存のエラー表示をリセット
+    document.querySelectorAll('.field-error').forEach(el => el.remove());
+    document.querySelectorAll('.error-highlight').forEach(el => el.classList.remove('error-highlight'));
+
+    errors.forEach(name => {
+      const el = document.querySelector(`[name="${name}"]`);
+      if (!el) return;
+      const field = el.closest('.field');
+      if (!field) return;
+      field.classList.add('error-highlight');
+      if (!field.querySelector('.field-error')) {
+        const msg = document.createElement('p');
+        msg.className = 'field-error';
+        msg.textContent = '※ この項目は必須です';
+        field.appendChild(msg);
+      }
+    });
+
+    // 最初のエラー箇所にスクロール
+    if (errors.length > 0) {
+      const first = document.querySelector('.error-highlight');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
   // 送信 → Googleスプレッドシートに送信
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbxOw7sA0l0oFB3WbJgX7QIUlOttjeIj6EzK9Yd9l87U8J_PfN_0twEmkmXNjnKznewx5A/exec';
 
   document.getElementById('survey').addEventListener('submit', function(e) {
     e.preventDefault();
+
+    // バリデーション
+    const errors = validate();
+    if (errors.length > 0) {
+      highlightErrors(errors);
+      return;
+    }
+    highlightErrors([]); // エラーをクリア
+
     const data = collectFormData();
 
     // ローカルにも保存
